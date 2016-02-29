@@ -1,34 +1,40 @@
 import java.util.Date;
 
 /**
- *
- * @author Linh
+ * @author Group 8
  */
-public class MemberSchedule {
+public class MemberSchedule 
+{
     private Date departFromHome;
     private Date departFromSchool;
     private Date arriveAtSchool;
     private Date arriveAtHome;
     
-    public MemberSchedule(){
+    public MemberSchedule()
+    {
         departFromHome = new Date();
         departFromSchool = new Date();
         arriveAtHome = new Date();
         arriveAtSchool = new Date();
     }
     
-    public void setDepartFromHomeTime(Date departTime){
+    public void setDepartFromHomeTime(Date departTime)
+    {
         this.departFromHome = departTime;
     }
     
-    public void setDepartFromSchoolTime(Date departTime){
+    public void setDepartFromSchoolTime(Date departTime)
+    {
         this.departFromSchool = departTime;
     }
     
-    public void setArriveAtSchoolTime(Date arrivalTime){
+    public void setArriveAtSchoolTime(Date arrivalTime)
+    {
         this.arriveAtSchool = arrivalTime;
     }
-    public void setArriveAtHomeTime(Date arrivalTime){
+    
+    public void setArriveAtHomeTime(Date arrivalTime)
+    {
         this.arriveAtHome = arrivalTime;
     }
 }
