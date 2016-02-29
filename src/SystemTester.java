@@ -2,9 +2,8 @@ import java.text.ParseException;
 import java.util.Scanner;
 
 /**
- * 
+ * Main Class which runs the system
  * @author Group 8
- *
  */
 public class SystemTester 
 {
@@ -26,31 +25,29 @@ public class SystemTester
 				User newUser = mainSystem.createNewUser();
 				if(newUser != null)
 				{
-					System.out.printf("New User Created!!! - %s: %s  %s\n\n", newUser.getStatus(), newUser.getName(), newUser.getAddress());
-				}
+					System.out.printf("\n  New User Created! - %s: %s  %s\n\n", newUser.getStatus(), newUser.getName(), newUser.getAddress());
+				} 
 				else 
 				{
-					System.out.println("Error with creating new user");
+					System.out.println("\n  Error with creating new user");
 				}
 				break;
 			}
 			case 2:
 			{
+				mainSystem.viewAllUser();
+				break;
+			}
+			case 3:
+			{
 				User user = mainSystem.login();
-
-				if(user != null)
-				{
-					System.out.printf("Login Successful!!!\nCurrent User - %s: %s  %s\n\n", user.getStatus(), user.getName(), user.getAddress());
-				}
-				else
-				{
-					System.out.println("Error with login, please try another username");
-				}
 				break;
 			}
 			default:
 			{
-				System.out.println("Invalid Input, please retry.");
+				System.out.println("\n Invalid Input, please retry.");
+				System.exit(0);
+				break;
 			}
 			}
 		}

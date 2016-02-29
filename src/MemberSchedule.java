@@ -25,7 +25,7 @@ public class MemberSchedule
     
     public Date getHomeTime()
     {
- 	   return departFromHome;
+        return departFromHome;
     }
     
     public Date getSchoolTime()

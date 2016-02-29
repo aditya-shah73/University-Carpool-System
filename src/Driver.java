@@ -1,7 +1,7 @@
 import java.text.ParseException;
 
 /**
-*
+* A class for the driver who is a user of the system
 * @author Group 8 
 */
 public class Driver implements User

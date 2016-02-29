@@ -1,7 +1,7 @@
 import java.text.ParseException;
 
 /**
-*
+* A class for the rider who is a user of the system
 * @author Group 8
 */
 public class Rider implements User 
