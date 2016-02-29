@@ -7,39 +7,49 @@ import java.util.Date;
  */
 public class MemberSchedule 
 {
-    private Date departFromHome;
-    private Date departFromSchool;
-    private Date arriveAtSchool;
-    private Date arriveAtHome;
+    private Date departFromHome; // What time you need to be picked up from your house
+    private Date departFromSchool; //What time do you need to be picked up from school
+//    private Date arriveAtSchool; 
+//    private Date arriveAtHome;
     private SimpleDateFormat format;
     
     
-    public MemberSchedule(String departHome, String departSchool, String arriveHome, String arriveSchool) throws ParseException
+    public MemberSchedule(String departHome, String departSchool) throws ParseException
     {
-    	this.format = new SimpleDateFormat("hh:mmaa");
+    	this.format = new SimpleDateFormat("hh:mm");
         departFromHome = format.parse(departHome);
         departFromSchool = format.parse(departSchool);
-        arriveAtHome = format.parse(arriveHome);
-        arriveAtSchool = format.parse(arriveSchool);
+//        arriveAtHome = format.parse(arriveHome);
+//        arriveAtSchool = format.parse(arriveSchool);
     }
     
-    public void setDepartFromHomeTime(Date departTime)
+    public Date getHomeTime()
     {
-        this.departFromHome = departTime;
+ 	   return departFromHome;
     }
     
-    public void setDepartFromSchoolTime(Date departTime)
+    public Date getSchoolTime()
     {
-        this.departFromSchool = departTime;
+ 	   return departFromSchool;
     }
     
-    public void setArriveAtSchoolTime(Date arrivalTime)
-    {
-        this.arriveAtSchool = arrivalTime;
-    }
-    
-    public void setArriveAtHomeTime(Date arrivalTime)
-    {
-        this.arriveAtHome = arrivalTime;
-    }
+//    public void setDepartFromHomeTime(Date departTime)
+//    {
+//        this.departFromHome = departTime;
+//    }
+//    
+//    public void setDepartFromSchoolTime(Date departTime)
+//    {
+//        this.departFromSchool = departTime;
+//    }
+//    
+//    public void setArriveAtSchoolTime(Date arrivalTime)
+//    {
+//        this.arriveAtSchool = arrivalTime;
+//    }
+//    
+//    public void setArriveAtHomeTime(Date arrivalTime)
+//    {
+//        this.arriveAtHome = arrivalTime;
+//    }
 }

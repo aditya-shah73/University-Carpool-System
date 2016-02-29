@@ -1,4 +1,6 @@
-import java.util.Hashtable;
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -7,10 +9,10 @@ import java.util.Scanner;
  */
 public class MainSystem 
 {
-	private Hashtable<String, User> riderTable = new Hashtable<>(); // table of Rider
-	private Hashtable<String, User> driverTable = new Hashtable<>(); // table of Driver
+	private HashMap<String, User> riderTable = new HashMap<>(); // table of Rider
+	private HashMap<String, User> driverTable = new HashMap<>(); // table of Driver
 
-	private void displayMainInterface()
+	public void displayMainInterface()
 	{
 		System.out.println("1. Creating new user.");
 		System.out.println("2. Login.");
@@ -18,7 +20,7 @@ public class MainSystem
 		System.out.print("Please enter your choice: ");
 	}
 
-	private User login()
+	public User login()
 	{
 		User returnedUser;
 		Scanner sc = new Scanner(System.in);
@@ -28,21 +30,47 @@ public class MainSystem
 		if(this.driverTable.get(username) != null)
 		{
 			returnedUser = this.driverTable.get(username);
-
 		}
 		else if(this.riderTable.get(username) != null)
 		{
 			returnedUser = this.riderTable.get(username);
 		}
-
 		else
 		{
 			returnedUser = null;
 		}
+
+		if(returnedUser.getStatus() == "Driver")
+		{
+			for(Map.Entry<String, User> entry : riderTable.entrySet())
+			{
+				if( entry.getValue().getRegion() - returnedUser.getRegion() >= 0)
+				{
+					if(returnedUser.getMemberSchedule().getHomeTime().equals(entry.getValue().getMemberSchedule().getHomeTime()))
+					{
+						System.out.println("You have to pick up: " + entry.getValue().getName());
+					}
+				}
+			}
+		}
+
+		else if(returnedUser.getStatus() == "Rider")
+		{
+			for(Map.Entry<String, User> entry : driverTable.entrySet())
+			{
+				if(returnedUser.getRegion() - entry.getValue().getRegion() >= 0)
+				{
+					if(returnedUser.getMemberSchedule().getHomeTime().equals(entry.getValue().getMemberSchedule().getHomeTime()))
+					{
+						System.out.println("You have to ride with: " + entry.getValue().getName());
+					}
+				}
+			}		
+		}
 		return returnedUser;
 	}
 
-	private User createNewUser()
+	public User createNewUser() throws ParseException
 	{
 		Scanner sc = new Scanner(System.in);
 		User returnedUser;
@@ -53,6 +81,12 @@ public class MainSystem
 
 		System.out.print("Full Name: ");
 		String fullname = sc.nextLine();
+
+		System.out.print("Enter the time you want to leave from your house: ");
+		String departFromHome = sc.nextLine();
+
+		System.out.print("Enter the time you want to leave from school: ");
+		String departFromSchool = sc.nextLine();
 
 		System.out.print("Address: ");
 		String address = sc.nextLine();
@@ -67,14 +101,14 @@ public class MainSystem
 		{
 		case 1: // case 1 rider
 		{
-			User newRider = new Rider(username, fullname, address, region);
+			User newRider = new Rider(username, fullname, address, region, departFromHome, departFromSchool);
 			this.riderTable.put(username, newRider);
 			returnedUser = newRider;
 			break;
 		}
 		case 2: // case 2 driver
 		{
-			User newDriver = new Driver(username,fullname, address, region);
+			User newDriver = new Driver(username,fullname, address, region, departFromHome, departFromSchool);
 			this.driverTable.put(username, newDriver);
 			returnedUser = newDriver;
 			break;
@@ -87,53 +121,5 @@ public class MainSystem
 		}
 		}
 		return returnedUser;
-	}
-
-	public static void main(String[] args)
-	{
-		MainSystem mainSystem = new MainSystem();
-		Scanner sc = new Scanner(System.in);
-
-		boolean exit = false;
-		while(exit == false)
-		{
-			mainSystem.displayMainInterface();
-			int choice = sc.nextInt();
-
-			switch(choice)
-			{
-			case 1:
-			{
-				User newUser = mainSystem.createNewUser();
-				if(newUser != null)
-				{
-					System.out.printf("New User Created!!! - %s: %s --- %s\n\n", newUser.getStatus(), newUser.getName(), newUser.getAddress());
-				}
-				else 
-				{
-					System.out.println("Error with creating new user");
-				}
-				break;
-			}
-			case 2:
-			{
-				User user = mainSystem.login();
-
-				if(user != null)
-				{
-					System.out.printf("Login Successful!!!\nCurrent User - %s: %s --- %s\n\n", user.getStatus(), user.getName(), user.getAddress());
-				}
-				else
-				{
-					System.out.println("Error with login, please try another username");
-				}
-				break;
-			}
-			default:
-			{
-				System.out.println("Invalid Input, please retry.");
-			}
-			}
-		}
 	}
 }

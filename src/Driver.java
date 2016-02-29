@@ -1,3 +1,5 @@
+import java.text.ParseException;
+
 /**
 *
 * @author Group 8 
@@ -8,21 +10,25 @@ public class Driver implements User
    private String fullName;
    private int region;
    private String username;
+   private String departFromHome;
+   private String departFromSchool;
    private MemberSchedule memberSchedule;
    
    // Default Constructor
-   public Driver()
+   public Driver() throws ParseException
    {
-       this("", "", "", 0);
+       this("", "", "", 0, "", "");
    }
    
-   public Driver(String username, String name, String address, int region)
+   public Driver(String username, String name, String address, int region, String departFromHome, String departFromSchool) throws ParseException
    {
        this.fullName = name;
        this.address = address;
        this.region = region;
        this.username = username;
-      // this.memberSchedule = new MemberSchedule();
+       this.departFromHome = departFromHome;
+       this.departFromSchool = departFromSchool;
+       this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
    }
    
    public String getUsername()

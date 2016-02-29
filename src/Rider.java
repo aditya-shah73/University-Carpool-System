@@ -1,3 +1,5 @@
+import java.text.ParseException;
+
 /**
 *
 * @author Group 8
@@ -8,21 +10,25 @@ public class Rider implements User
    private String fullName;
    private int region;
    private String username;
+   private String departFromHome;
+   private String departFromSchool;
    private MemberSchedule memberSchedule;
    
    // Default Constructor
-   public Rider()
+   public Rider() throws ParseException
    {
-       this("", "", "", 0);
+       this("", "", "", 0, "", "");
    }
    
-   public Rider(String username, String name, String address, int region)
+   public Rider(String username, String name, String address, int region, String departFromHome, String departFromSchool) throws ParseException
    {
        this.fullName = name;
        this.address = address;
        this.region = region;
        this.username = username;
-       //this.memberSchedule = new MemberSchedule();
+       this.departFromHome = departFromHome;
+       this.departFromSchool = departFromSchool;
+       this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
    }
    
    public String getUsername()
@@ -49,6 +55,7 @@ public class Rider implements User
    {
        return this.region;
    }
+   
    
    public void setAddress(String newAddress)
    {
