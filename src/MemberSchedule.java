@@ -1,3 +1,5 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -9,13 +11,16 @@ public class MemberSchedule
     private Date departFromSchool;
     private Date arriveAtSchool;
     private Date arriveAtHome;
+    private SimpleDateFormat format;
     
-    public MemberSchedule()
+    
+    public MemberSchedule(String departHome, String departSchool, String arriveHome, String arriveSchool) throws ParseException
     {
-        departFromHome = new Date();
-        departFromSchool = new Date();
-        arriveAtHome = new Date();
-        arriveAtSchool = new Date();
+    	this.format = new SimpleDateFormat("hh:mmaa");
+        departFromHome = format.parse(departHome);
+        departFromSchool = format.parse(departSchool);
+        arriveAtHome = format.parse(arriveHome);
+        arriveAtSchool = format.parse(arriveSchool);
     }
     
     public void setDepartFromHomeTime(Date departTime)

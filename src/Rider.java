@@ -22,7 +22,7 @@ public class Rider implements User
        this.address = address;
        this.region = region;
        this.username = username;
-       this.memberSchedule = new MemberSchedule();
+       //this.memberSchedule = new MemberSchedule();
    }
    
    public String getUsername()
