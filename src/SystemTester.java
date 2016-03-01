@@ -43,10 +43,14 @@ public class SystemTester
 				User user = mainSystem.login();
 				break;
 			}
+			case 4:
+			{
+				System.out.println("Goodbye!!");
+				System.exit(0);
+			}
 			default:
 			{
 				System.out.println("\n Invalid Input, please retry.");
-				System.exit(0);
 				break;
 			}
 			}
