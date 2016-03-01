@@ -13,7 +13,7 @@ public class MemberSchedule
 //    private Date arriveAtHome;
     private SimpleDateFormat format;
     
-    
+    // Constructor 
     public MemberSchedule(String departHome, String departSchool) throws ParseException
     {
     	this.format = new SimpleDateFormat("hh:mm");
