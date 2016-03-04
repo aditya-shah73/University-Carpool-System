@@ -1,4 +1,5 @@
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,8 @@ import java.util.ArrayList;
  */
 public class Driver implements User
 {
-	private ArrayList<User> riderList;
+	private ArrayList<User> riderListSchool;
+	private ArrayList<User> riderListHome;
 	private String address;
 	private String fullName;
 	private int region;
@@ -16,7 +18,9 @@ public class Driver implements User
 	private String departFromHome;
 	private String departFromSchool;
 	private MemberSchedule memberSchedule;
-	private boolean available;
+	private boolean availableHome;
+	private boolean availableSchool;
+	SimpleDateFormat format = new SimpleDateFormat("hh:mm");
 	
 	// Default Constructor
 	public Driver() throws ParseException
@@ -26,9 +30,11 @@ public class Driver implements User
 
 	public Driver(String username, String name, String address, int region, String departFromHome, String departFromSchool, int seat) throws ParseException
 	{	
-		this.available = true;
+		this.availableHome = true;
+		this.availableSchool = true;
 		this.availableSeat = seat;
-		this.riderList = new ArrayList<User>();
+		this.riderListHome = new ArrayList<User>();
+		this.riderListSchool = new ArrayList<User>();
 		this.fullName = name;
 		this.address = address;
 		this.region = region;
@@ -37,15 +43,44 @@ public class Driver implements User
 		this.departFromSchool = departFromSchool;
 		this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
 	}
-
-	public void notAvailable()
+	
+	
+	public void displayRideHome(){
+		if (!riderListHome.isEmpty()) {
+			for(int i = 0; i< this.riderListHome.size(); i++)
+				System.out.println("Ride home with: " + riderListHome.get(i).getName() + "\tat " + 
+						format.format(riderListHome.get(i).getMemberSchedule().getHomeTime()));
+		} else {
+			System.out.println("No rider home");
+		}
+	}
+	public void displayRideSchool(){
+		if (!riderListSchool.isEmpty()) {
+		for(int i = 0; i< this.riderListSchool.size(); i++)
+			System.out.println("Ride to school with: " + riderListSchool.get(i).getName() + "\tat " +
+		format.format(riderListSchool.get(i).getMemberSchedule().getSchoolTime()));
+		} else {
+			System.out.println("No ride to school");
+		}
+	}
+	public void notAvailableHome()
 	{
-		this.available = false;
+		this.availableHome = false;
+	}
+	
+	public void notAvailableSchool()
+	{
+		this.availableSchool = false;
 	}
 
-	public boolean isAvailable()
+	public boolean isAvailableHome()
 	{
-		return this.available;
+		return this.availableHome;
+	}
+
+	public boolean isAvailableSchool()
+	{
+		return this.availableSchool;
 	}
 
 	public int getAvailableSeat()
@@ -53,15 +88,15 @@ public class Driver implements User
 		return this.availableSeat;
 	}
 
-	public boolean addRider(User rider)
+	public boolean addRideHome(User rider)
 	{
 		if(this.availableSeat > 0)
 		{
 			this.availableSeat--;
-			this.riderList.add(rider);
+			this.riderListHome.add(rider);
 			if(this.availableSeat == 0)
 			{
-				this.notAvailable();
+				this.notAvailableHome();
 			}
 			return true;
 		}  
@@ -69,8 +104,25 @@ public class Driver implements User
 		{
 			return false;
 		}
-
-	}
+	} 
+	
+	public boolean addRideSchool(User rider)
+	{
+		if(this.availableSeat > 0)
+		{
+			this.availableSeat--;
+			this.riderListSchool.add(rider);
+			if(this.availableSeat == 0)
+			{
+				this.notAvailableSchool();
+			}
+			return true;
+		}  
+		else
+		{
+			return false;
+		}
+	} 
 	
 	public String getUsername()
 	{

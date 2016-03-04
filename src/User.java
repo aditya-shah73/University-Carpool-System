@@ -1,12 +1,19 @@
+import java.text.ParseException;
+
 /**
  * The user interface for different users
  * @author Group 8
  */
 public interface User 
 {
-	public boolean addRider(User rider);
-	public void notAvailable();
-	public boolean isAvailable();
+	public void displayRideHome();
+	public void displayRideSchool();
+	public boolean addRideHome(User user) throws ParseException;
+	public boolean addRideSchool(User user) throws ParseException;
+	public void notAvailableHome();
+	public boolean isAvailableHome();
+	public void notAvailableSchool();
+	public boolean isAvailableSchool();
 	public String getUsername(); 
 	public String getStatus();
 	public String getAddress();

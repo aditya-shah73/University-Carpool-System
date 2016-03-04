@@ -17,9 +17,13 @@ public class MainSystem
 	public MainSystem() throws ParseException
 	{
 		riderTable.put("paul1", new Rider("paul1", "paul1", "123a", 5, "8:00", "2:00"));
+		riderTable.put("adi", new Rider("adi", "adi", "123b", 2, "10:00", "2:00"));
+		riderTable.put("rav", new Rider("rav", "rav", "241", 6, "10:00", "2:00"));
+
 		driverTable.put("paul2", new Driver("paul2", "paul2", "123b", 7, "8:00", "2:00", 3));
+		driverTable.put("dav", new Driver("dav", "dav", "123 CC", 3, "10:00", "2:00", 2));
 	}
-	
+		
 	public void displayMainInterface()
 	{
 		System.out.println("***************************\n" +
@@ -32,14 +36,27 @@ public class MainSystem
 		System.out.print("  Please enter your choice:");
 	}
 
-	private void displayCarpoolService()
+	private void displayCarpoolServiceDriver()
 	{
-		System.out.println("***************************\n" +
-				"*       CARPOOL MENU      *\n" +
-				"* 1. Carpool from home    *\n" +
-				"* 2. Carpool from SJSU    *\n" +
-				"* 3. Exit                 *\n" + 
-				"***************************"); 
+		System.out.println("****************************\n" +
+				"*       CARPOOL MENU       *\n" +
+				"* 1. Carpool from SJSU     *\n" +
+				"* 2. Carpool from home     *\n" +
+				"* 3. Display current riders*\n" +
+				"* 4. Exit                  *\n" + 
+				"****************************"); 
+		System.out.print("  Please enter your choice:");
+	}
+	
+	private void displayCarpoolServiceRider()
+	{
+		System.out.println("*****************************\n" +
+				"*       CARPOOL MENU        *\n" +
+				"* 1. Carpool from SJSU      *\n" +
+				"* 2. Carpool from home      *\n" +
+				"* 3. Display current drivers*\n" +
+				"* 4. Exit                   *\n" + 
+				"****************************"); 
 		System.out.print("  Please enter your choice:");
 	}
 
@@ -70,7 +87,12 @@ public class MainSystem
 		int choice;
 		do 
 		{
-			displayCarpoolService();
+			if (returnedUser.getStatus().equals("Driver")) {
+				displayCarpoolServiceDriver();
+			} else {
+				displayCarpoolServiceRider();
+			}
+			
 			choice = sc.nextInt();
 
 			switch (choice) 
@@ -80,13 +102,14 @@ public class MainSystem
 				{
 					for(Map.Entry<String, User> entry : riderTable.entrySet())
 					{
-						if(entry.getValue().isAvailable())
+						if(entry.getValue().isAvailableSchool())
 						{
 							if(returnedUser.getRegion() - entry.getValue().getRegion() >= 0)
 							{
 								if(returnedUser.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
 								{
-									System.out.println(" You may pick up: " + entry.getValue().getName() + "Username: " + entry.getValue().getUsername() + " at " + format.format(returnedUser.getMemberSchedule().getSchoolTime()));
+									System.out.println(" You may pick up: " + entry.getValue().getName() + "\tUsername: " + entry.getValue().getUsername() +
+											" at " + format.format(returnedUser.getMemberSchedule().getSchoolTime()));
 								}
 								/*while(!usernameChoice.equalsIgnoreCase("0")){
 									System.out.println("Enter username to pickup, [0] to exit: ");
@@ -105,12 +128,17 @@ public class MainSystem
 					String usernameChoice = sc.nextLine();
 
 
-					User newRider =  this.riderTable.get(usernameChoice);
+					//User newRider =  this.riderTable.get(usernameChoice);
 
-					if(newRider != null){
-						newRider.notAvailable();
-						returnedUser.addRider(newRider);
-						System.out.println("Done, ride with: " +newRider.getName());
+					if((this.riderTable.get(usernameChoice) != null) && (this.riderTable.get(usernameChoice).isAvailableSchool())){
+						this.riderTable.get(usernameChoice).notAvailableSchool();
+						returnedUser.addRideSchool(this.riderTable.get(usernameChoice));
+						
+						this.riderTable.get(usernameChoice).addRideSchool(returnedUser);
+						
+						System.out.println("Done, ride with: " + this.riderTable.get(usernameChoice).getName());
+					} else {
+						System.out.println("This rider isn't available");
 					}
 				}
 				else if(returnedUser.getStatus() == "Rider")
@@ -119,9 +147,9 @@ public class MainSystem
 					{
 						if(entry.getValue().getRegion() - returnedUser.getRegion() >= 0)
 						{
-							if(returnedUser.getMemberSchedule().getHomeTime().equals(entry.getValue().getMemberSchedule().getHomeTime()))
+							if(returnedUser.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
 							{
-								System.out.println(" You may ride with: " + entry.getValue().getName() + " at " + format.format(returnedUser.getMemberSchedule().getHomeTime()));
+								System.out.println(" You may ride with: " + entry.getValue().getName() + " at " + format.format(returnedUser.getMemberSchedule().getSchoolTime()));
 							}
 						}
 					}		
@@ -137,13 +165,14 @@ public class MainSystem
 					{
 
 
-						if(entry.getValue().isAvailable()){
+						if(entry.getValue().isAvailableHome()){
 							if(returnedUser.getRegion() - entry.getValue().getRegion() >= 0)
 							{
-								if(returnedUser.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
+								if(returnedUser.getMemberSchedule().getHomeTime().equals(entry.getValue().getMemberSchedule().getHomeTime()))
 								{
 
-									System.out.println(" You may pick up: " + entry.getValue().getName() + " Username: " + entry.getValue().getUsername() + " at " + format.format(returnedUser.getMemberSchedule().getSchoolTime()));
+									System.out.println(" You may pick up: " + entry.getValue().getName() + "\tUsername: " + entry.getValue().getUsername() +
+											" at " + format.format(returnedUser.getMemberSchedule().getHomeTime()));
 								}
 							}
 						}
@@ -156,9 +185,11 @@ public class MainSystem
 					User newRider =  this.riderTable.get(usernameChoice);
 
 					if(newRider != null){
-						newRider.notAvailable();
-						returnedUser.addRider(newRider);
-						System.out.println("Done, ride with: " +newRider.getName());
+						newRider.notAvailableHome();
+						returnedUser.addRideHome(newRider);
+						
+						this.riderTable.get(usernameChoice).addRideHome(returnedUser);
+						System.out.println("Done, ride with: " + newRider.getName());
 					}
 
 				}
@@ -168,9 +199,9 @@ public class MainSystem
 					{
 						if(entry.getValue().getRegion() - returnedUser.getRegion() >= 0)
 						{
-							if(returnedUser.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
+							if(returnedUser.getMemberSchedule().getHomeTime().equals(entry.getValue().getMemberSchedule().getHomeTime()))
 							{
-								System.out.println("    You may ride with: " + entry.getValue().getName() + " at " + format.format(returnedUser.getMemberSchedule().getSchoolTime()));
+								System.out.println("    You may ride with: " + entry.getValue().getName() + " at " + format.format(returnedUser.getMemberSchedule().getHomeTime()));
 							}
 						}
 					}		
@@ -179,14 +210,17 @@ public class MainSystem
 				break;
 				
 			case 3:
-				System.out.println();
-				break;
+				returnedUser.displayRideHome();
+				returnedUser.displayRideSchool();
 				
+				break;
+			case 4:
+				break;
 			default:
 				System.out.println("Wrong input...");
 			}
 		} 
-		while (choice != 3);
+		while (choice != 4);
 		return returnedUser;
 	}
 
