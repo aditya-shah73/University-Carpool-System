@@ -33,6 +33,9 @@ public class Rider implements User
        this.departFromSchool = departFromSchool;
        this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
    }
+   public boolean addRider(User rider){
+	   return false;
+   }
    public void notAvailable(){
 	   this.available = false;
    }

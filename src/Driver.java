@@ -20,7 +20,7 @@ public class Driver implements User
    // Default Constructor
    public Driver() throws ParseException
    {
-       this("", "", "", 0, "", "", 0);
+       this("", "", "", 0, "07:00", "12:00", 0);
    }
    
    public Driver(String username, String name, String address, int region, String departFromHome, String departFromSchool, int seat) throws ParseException

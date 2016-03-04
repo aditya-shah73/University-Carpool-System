@@ -76,9 +76,7 @@ public class MainSystem
 					for(Map.Entry<String, User> entry : riderTable.entrySet())
 					{
 						
-						Driver newDriver = new Driver();
-						newDriver = (Driver) returnedUser;
-						if(entry.getValue().isAvailable()){
+												if(entry.getValue().isAvailable()){
 							if(returnedUser.getRegion() - entry.getValue().getRegion() >= 0)
 							{
 								if(returnedUser.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
@@ -92,10 +90,10 @@ public class MainSystem
 									System.out.println("Enter username to pickup, [0] to exit: ");
 									usernameChoice = sc.nextLine();
 									
-									Rider newRider =  (Rider) this.riderTable.get(usernameChoice);
+									User newRider =  this.riderTable.get(usernameChoice);
 									
 									newRider.notAvailable();
-									newDriver.addRider(newRider);
+									returnedUser.addRider(newRider);
 								}
 								
 							}
@@ -124,8 +122,7 @@ public class MainSystem
 					for(Map.Entry<String, User> entry : riderTable.entrySet())
 					{
 						
-						Driver newDriver = new Driver();
-						newDriver = (Driver) returnedUser;
+					
 						if(entry.getValue().isAvailable()){
 							if(returnedUser.getRegion() - entry.getValue().getRegion() >= 0)
 							{
@@ -140,10 +137,10 @@ public class MainSystem
 									System.out.println("Enter username to pickup, [0] to exit: ");
 									usernameChoice = sc.nextLine();
 									
-									Rider newRider =  (Rider) this.riderTable.get(usernameChoice);
+									User newRider =  this.riderTable.get(usernameChoice);
 									
 									newRider.notAvailable();
-									newDriver.addRider(newRider);
+									returnedUser.addRider(newRider);
 								}
 								
 							}

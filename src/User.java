@@ -4,6 +4,7 @@
  */
 public interface User 
 {
+	public boolean addRider(User rider);
 	public void notAvailable();
 	public boolean isAvailable();
     public String getUsername(); 
