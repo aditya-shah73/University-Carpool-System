@@ -10,13 +10,13 @@ public class SystemTester
 	public static void main(String[] args) throws ParseException
 	{
 		MainSystem mainSystem = new MainSystem();
-		Scanner sc = new Scanner(System.in);
+		Scanner in = new Scanner(System.in);
 
 		boolean exit = false;
 		while(exit == false)
 		{
 			mainSystem.displayMainInterface();
-			int choice = sc.nextInt();
+			int choice = in.nextInt();
 
 			switch(choice)
 			{

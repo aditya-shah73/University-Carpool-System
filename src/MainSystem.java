@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- *
+ * The main system for scheduling
  * @author Group 8
  */
 public class MainSystem 
@@ -13,11 +13,13 @@ public class MainSystem
 	private HashMap<String, User> riderTable = new HashMap<>(); // table of Rider
 	private HashMap<String, User> driverTable = new HashMap<>(); // table of Driver
 	SimpleDateFormat format = new SimpleDateFormat("hh:mm");
-	
-	public MainSystem() throws ParseException{
+
+	public MainSystem() throws ParseException
+	{
 		riderTable.put("paul1", new Rider("paul1 <username>", "paul1 <name>", "123a", 5, "8:00", "2:00"));
 		driverTable.put("paul2", new Driver("paul2 <username>", "paul2 <name> ", "123b", 7, "8:00", "2:00", 3));
 	}
+	
 	public void displayMainInterface()
 	{
 		System.out.println("***************************\n" +
@@ -76,40 +78,40 @@ public class MainSystem
 			case 1:
 				if(returnedUser.getStatus() == "Driver")
 				{
-			 
+
 					for(Map.Entry<String, User> entry : riderTable.entrySet())
 					{
-						
-							if(entry.getValue().isAvailable()){
+
+						if(entry.getValue().isAvailable()){
 							if(returnedUser.getRegion() - entry.getValue().getRegion() >= 0)
 							{
 								if(returnedUser.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
 								{
-									
+
 									System.out.println("    You may pick up: " + entry.getValue().getName() + "Username: " + entry.getValue().getUsername());
 								}
-								
+
 								/*
 								while(!usernameChoice.equalsIgnoreCase("0")){
 									System.out.println("Enter username to pickup, [0] to exit: ");
 									usernameChoice = sc.nextLine();
-									
+
 									newRider =  this.riderTable.get(usernameChoice);
-									
+
 									newRider.notAvailable();
 									returnedUser.addRider(newRider);
 								}
-								*/
+								 */
 							}
 						}
 					}
 					System.out.print("Enter username to pickup, [0] to exit: ");
 					sc.nextLine();
 					String usernameChoice = sc.nextLine();
-					
-					
+
+
 					User newRider =  this.riderTable.get(usernameChoice);
-					
+
 					if(newRider != null){
 						newRider.notAvailable();
 						returnedUser.addRider(newRider);
@@ -134,37 +136,37 @@ public class MainSystem
 			case 2:
 				if(returnedUser.getStatus() == "Driver")
 				{
-			 
+
 					for(Map.Entry<String, User> entry : riderTable.entrySet())
 					{
-						
-					
+
+
 						if(entry.getValue().isAvailable()){
 							if(returnedUser.getRegion() - entry.getValue().getRegion() >= 0)
 							{
 								if(returnedUser.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
 								{
-									
+
 									System.out.println("    You may pick up: " + entry.getValue().getName() + " Username: " + entry.getValue().getUsername());
 								}
-								
-								
+
+
 							}
 						}
-						}
+					}
 					System.out.print("Enter username to pickup, [0] to exit: ");
 					sc.nextLine();
 					String usernameChoice = sc.nextLine();
-					
-					
+
+
 					User newRider =  this.riderTable.get(usernameChoice);
-					
+
 					if(newRider != null){
 						newRider.notAvailable();
 						returnedUser.addRider(newRider);
 						System.out.println("Done, ride with: " +newRider.getName());
 					}
-						
+
 				}
 				else if(returnedUser.getStatus() == "Rider")
 				{
@@ -257,11 +259,12 @@ public class MainSystem
 		System.out.print("  Please enter [1] if you are rider, [2] if you are driver: ");
 		int status = sc.nextInt();
 		int seat = 0;
-		if(status == 2){
+		
+		if(status == 2)
+		{
 			System.out.print("Please enter available seat: ");
 			seat = sc.nextInt();
 		}
-		
 
 		switch(status)
 		{
