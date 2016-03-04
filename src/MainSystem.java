@@ -145,23 +145,25 @@ public class MainSystem
 								if(returnedUser.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
 								{
 									
-									System.out.println("    You may pick up: " + entry.getValue().getName() + " at " + format.format(returnedUser.getMemberSchedule().getSchoolTime() 
-											+ "Username: " + entry.getValue().getUsername()));
+									System.out.println("    You may pick up: " + entry.getValue().getName() + " Username: " + entry.getValue().getUsername());
 								}
-								String usernameChoice = "";
-								while(!usernameChoice.equals("0")){
-									System.out.println("Enter username to pickup, [0] to exit: ");
-									usernameChoice = sc.nextLine();
-									
-									User newRider =  this.riderTable.get(usernameChoice);
-									
-									newRider.notAvailable();
-									returnedUser.addRider(newRider);
-								}
+								
 								
 							}
 						}
 						}
+					System.out.print("Enter username to pickup, [0] to exit: ");
+					sc.nextLine();
+					String usernameChoice = sc.nextLine();
+					
+					
+					User newRider =  this.riderTable.get(usernameChoice);
+					
+					if(newRider != null){
+						newRider.notAvailable();
+						returnedUser.addRider(newRider);
+						System.out.println("Done, ride with: " +newRider.getName());
+					}
 						
 				}
 				else if(returnedUser.getStatus() == "Rider")
