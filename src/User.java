@@ -4,6 +4,8 @@
  */
 public interface User 
 {
+	public void notAvailable();
+	public boolean isAvailable();
     public String getUsername(); 
     public String getStatus();
     public String getAddress();

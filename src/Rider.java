@@ -13,6 +13,7 @@ public class Rider implements User
    private String departFromHome;
    private String departFromSchool;
    private MemberSchedule memberSchedule;
+   private boolean available;
    
    // Default Constructor
    public Rider() throws ParseException
@@ -20,8 +21,10 @@ public class Rider implements User
        this("", "", "", 0, "", "");
    }
    
+ 
    public Rider(String username, String name, String address, int region, String departFromHome, String departFromSchool) throws ParseException
-   {
+   {	
+	   this.available = true;
        this.fullName = name;
        this.address = address;
        this.region = region;
@@ -30,7 +33,12 @@ public class Rider implements User
        this.departFromSchool = departFromSchool;
        this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
    }
-   
+   public void notAvailable(){
+	   this.available = false;
+   }
+   public boolean isAvailable(){
+	   return this.available;
+   }
    public String getUsername()
    {
        return this.username;

@@ -37,7 +37,7 @@ public class MainSystem
 		System.out.print("  Please enter your choice:");
 	}
 
-	public User login()
+	public User login() throws ParseException
 	{
 		User returnedUser;
 		Scanner sc = new Scanner(System.in);
@@ -101,16 +101,36 @@ public class MainSystem
 			case 2:
 				if(returnedUser.getStatus() == "Driver")
 				{
+			 
 					for(Map.Entry<String, User> entry : riderTable.entrySet())
 					{
-						if(returnedUser.getRegion() - entry.getValue().getRegion() >= 0)
-						{
-							if(returnedUser.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
+						
+						Driver newDriver = new Driver();
+						newDriver = (Driver) returnedUser;
+						if(entry.getValue().isAvailable()){
+							if(returnedUser.getRegion() - entry.getValue().getRegion() >= 0)
 							{
-								System.out.println("    You may pick up: " + entry.getValue().getName() + " at " + format.format(returnedUser.getMemberSchedule().getSchoolTime()));
+								if(returnedUser.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
+								{
+									
+									System.out.println("    You may pick up: " + entry.getValue().getName() + " at " + format.format(returnedUser.getMemberSchedule().getSchoolTime() 
+											+ "Username: " + entry.getValue().getUsername()));
+								}
+								String usernameChoice = "";
+								while(!usernameChoice.equals("0")){
+									System.out.println("Enter username to pickup, [0] to exit: ");
+									usernameChoice = sc.nextLine();
+									
+									Rider newRider =  (Rider) this.riderTable.get(usernameChoice);
+									
+									newRider.notAvailable();
+									newDriver.addRider(newRider);
+								}
+								
 							}
 						}
-					}
+						}
+						
 				}
 				else if(returnedUser.getStatus() == "Rider")
 				{
@@ -202,6 +222,9 @@ public class MainSystem
 
 		System.out.print("  Please enter [1] if you are rider, [2] if you are driver: ");
 		int status = sc.nextInt();
+		
+		System.out.print("Please enter available seat: ");
+		int seat = sc.nextInt();
 
 		switch(status)
 		{
@@ -214,7 +237,7 @@ public class MainSystem
 		}
 		case 2: // Driver
 		{
-			User newDriver = new Driver(username,fullname, address, region, departFromHome, departFromSchool);
+			User newDriver = new Driver(username,fullname, address, region, departFromHome, departFromSchool, seat);
 			this.driverTable.put(username, newDriver);
 			returnedUser = newDriver;
 			break;
