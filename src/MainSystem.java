@@ -16,8 +16,8 @@ public class MainSystem
 
 	public MainSystem() throws ParseException
 	{
-		riderTable.put("paul1", new Rider("paul1 <username>", "paul1 <name>", "123a", 5, "8:00", "2:00"));
-		driverTable.put("paul2", new Driver("paul2 <username>", "paul2 <name> ", "123b", 7, "8:00", "2:00", 3));
+		riderTable.put("paul1", new Rider("paul1", "paul1", "123a", 5, "8:00", "2:00"));
+		driverTable.put("paul2", new Driver("paul2", "paul2", "123b", 7, "8:00", "2:00", 3));
 	}
 	
 	public void displayMainInterface()
@@ -63,7 +63,7 @@ public class MainSystem
 		}
 		else
 		{
-			System.out.println("\n  Error with login, please try another username");
+			System.out.println("\n Error with login, please try another username");
 			returnedUser = null;
 		}
 
@@ -78,21 +78,17 @@ public class MainSystem
 			case 1:
 				if(returnedUser.getStatus() == "Driver")
 				{
-
 					for(Map.Entry<String, User> entry : riderTable.entrySet())
 					{
-
-						if(entry.getValue().isAvailable()){
+						if(entry.getValue().isAvailable())
+						{
 							if(returnedUser.getRegion() - entry.getValue().getRegion() >= 0)
 							{
 								if(returnedUser.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
 								{
-
-									System.out.println("    You may pick up: " + entry.getValue().getName() + "Username: " + entry.getValue().getUsername());
+									System.out.println(" You may pick up: " + entry.getValue().getName() + "Username: " + entry.getValue().getUsername() + " at " + format.format(returnedUser.getMemberSchedule().getSchoolTime()));
 								}
-
-								/*
-								while(!usernameChoice.equalsIgnoreCase("0")){
+								/*while(!usernameChoice.equalsIgnoreCase("0")){
 									System.out.println("Enter username to pickup, [0] to exit: ");
 									usernameChoice = sc.nextLine();
 
@@ -100,8 +96,7 @@ public class MainSystem
 
 									newRider.notAvailable();
 									returnedUser.addRider(newRider);
-								}
-								 */
+								}*/
 							}
 						}
 					}
@@ -126,13 +121,14 @@ public class MainSystem
 						{
 							if(returnedUser.getMemberSchedule().getHomeTime().equals(entry.getValue().getMemberSchedule().getHomeTime()))
 							{
-								System.out.println("    You may ride with: " + entry.getValue().getName() + " at " + format.format(returnedUser.getMemberSchedule().getHomeTime()));
+								System.out.println(" You may ride with: " + entry.getValue().getName() + " at " + format.format(returnedUser.getMemberSchedule().getHomeTime()));
 							}
 						}
 					}		
 				}
 				System.out.println();
 				break;
+				
 			case 2:
 				if(returnedUser.getStatus() == "Driver")
 				{
@@ -147,10 +143,8 @@ public class MainSystem
 								if(returnedUser.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
 								{
 
-									System.out.println("    You may pick up: " + entry.getValue().getName() + " Username: " + entry.getValue().getUsername());
+									System.out.println(" You may pick up: " + entry.getValue().getName() + " Username: " + entry.getValue().getUsername() + " at " + format.format(returnedUser.getMemberSchedule().getSchoolTime()));
 								}
-
-
 							}
 						}
 					}
@@ -183,9 +177,11 @@ public class MainSystem
 				}
 				System.out.println();
 				break;
+				
 			case 3:
 				System.out.println();
 				break;
+				
 			default:
 				System.out.println("Wrong input...");
 			}
