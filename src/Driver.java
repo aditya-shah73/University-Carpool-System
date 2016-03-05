@@ -21,7 +21,7 @@ public class Driver implements User
 	private boolean availableHome;
 	private boolean availableSchool;
 	SimpleDateFormat format = new SimpleDateFormat("hh:mm");
-	
+
 	// Default Constructor
 	public Driver() throws ParseException
 	{
@@ -43,31 +43,44 @@ public class Driver implements User
 		this.departFromSchool = departFromSchool;
 		this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
 	}
-	
-	
-	public void displayRideHome(){
-		if (!riderListHome.isEmpty()) {
+
+	public void displayRideHome()
+	{
+		if (!riderListHome.isEmpty()) 
+		{
 			for(int i = 0; i< this.riderListHome.size(); i++)
+			{
 				System.out.println("Ride home with: " + riderListHome.get(i).getName() + "\tat " + 
 						format.format(riderListHome.get(i).getMemberSchedule().getHomeTime()));
-		} else {
+			}
+		} 
+		else
+		{
 			System.out.println("No rider home");
 		}
 	}
-	public void displayRideSchool(){
-		if (!riderListSchool.isEmpty()) {
-		for(int i = 0; i< this.riderListSchool.size(); i++)
-			System.out.println("Ride to school with: " + riderListSchool.get(i).getName() + "\tat " +
-		format.format(riderListSchool.get(i).getMemberSchedule().getSchoolTime()));
-		} else {
+
+	public void displayRideSchool()
+	{
+		if (!riderListSchool.isEmpty()) 
+		{
+			for(int i = 0; i< this.riderListSchool.size(); i++)
+			{
+				System.out.println("Ride to school with: " + riderListSchool.get(i).getName() + "\tat " +
+						format.format(riderListSchool.get(i).getMemberSchedule().getSchoolTime()));
+			}
+		} 
+		else
+		{
 			System.out.println("No ride to school");
 		}
 	}
+
 	public void notAvailableHome()
 	{
 		this.availableHome = false;
 	}
-	
+
 	public void notAvailableSchool()
 	{
 		this.availableSchool = false;
@@ -105,7 +118,7 @@ public class Driver implements User
 			return false;
 		}
 	} 
-	
+
 	public boolean addRideSchool(User rider)
 	{
 		if(this.availableSeat > 0)
@@ -123,7 +136,7 @@ public class Driver implements User
 			return false;
 		}
 	} 
-	
+
 	public String getUsername()
 	{
 		return this.username;

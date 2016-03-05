@@ -2,7 +2,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
+/**The schedule for a member of the system
  * @author Group 8
  */
 public class MemberSchedule 

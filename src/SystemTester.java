@@ -11,13 +11,11 @@ public class SystemTester
 	{
 		MainSystem mainSystem = new MainSystem();
 		Scanner in = new Scanner(System.in);
-
 		boolean exit = false;
 		while(exit == false)
 		{
 			mainSystem.displayMainInterface();
 			int choice = in.nextInt();
-
 			switch(choice)
 			{
 			case 1:

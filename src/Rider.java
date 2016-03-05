@@ -38,40 +38,41 @@ public class Rider implements User
 		this.departFromSchool = departFromSchool;
 		this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
 	}
-	
+
 	public boolean addRideHome(User user) throws ParseException
 	{
 		this.driverHome = new Driver();
 		this.driverHome = (Driver) user;
 		return true;
 	}
+
 	public boolean addRideSchool(User user) throws ParseException
 	{
 		this.driverSchool = new Driver();
 		this.driverSchool = (Driver) user;
 		return true;
 	}
-	
+
 	public void notAvailableHome()
 	{
 		this.availableHome = false;
 	}
-	
+
 	public boolean isAvailableHome()
 	{
 		return this.availableHome;
 	}
-	
+
 	public void notAvailableSchool()
 	{
 		this.availableSchool = false;
 	}
-	
+
 	public boolean isAvailableSchool()
 	{
 		return this.availableSchool;
 	}
-	
+
 	public String getUsername()
 	{
 		return this.username;
@@ -112,29 +113,34 @@ public class Rider implements User
 		return this.memberSchedule;
 	}
 	public void addDriver(){
-		
+
 	}
-	@Override
-	public void displayRideHome() {
-		if(this.driverHome!=null){
+
+	public void displayRideHome() 
+	{
+		if(this.driverHome!=null)
+		{
 			System.out.println("You will be picked up from home by: " + this.driverHome.getName() + "\tat " + 
 					format.format(this.driverHome.getMemberSchedule().getHomeTime()));
-		} else {
+		} 
+		else
+		{
 			System.out.println("No ride from home available");
 		}
-		
-		
+
+
 	}
 
-	@Override
-	public void displayRideSchool() {
-		if (this.driverSchool != null) {
+	public void displayRideSchool() 
+	{
+		if (this.driverSchool != null)
+		{
 			System.out.println("You will be picked up from school by: " + this.driverSchool.getName() + "\tat " + 
-				format.format(this.driverSchool.getMemberSchedule().getSchoolTime()));
-		} else {
+					format.format(this.driverSchool.getMemberSchedule().getSchoolTime()));
+		} 
+		else
+		{
 			System.out.println("No ride from school available");
 		}
-
-		
 	}
 }
