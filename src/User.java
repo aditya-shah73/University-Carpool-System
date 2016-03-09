@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 public interface User 
 {
+	public Payment getPayment();
 	public void displayNotification();
 	public void displayRideHome();
 	public void displayRideSchool();

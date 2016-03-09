@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class Rider implements User 
 {
+	private Payment payment;
 	private ArrayList<String> notification;
 	private Driver driverSchool = null;
 	private Driver driverHome = null;
@@ -30,6 +31,7 @@ public class Rider implements User
 
 	public Rider(String username, String name, String address, int region, String departFromHome, String departFromSchool) throws ParseException
 	{	
+		this.payment = new Payment();
 		this.notification = new ArrayList<>();
 		this.availableHome = true;
 		this.availableSchool = true;
