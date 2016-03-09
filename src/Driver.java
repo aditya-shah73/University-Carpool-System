@@ -8,6 +8,8 @@ import java.util.ArrayList;
  */
 public class Driver implements User
 {
+	private int currentLocation;
+	private ArrayList<String> notification;
 	private ArrayList<User> riderListSchool;
 	private ArrayList<User> riderListHome;
 	private String address;
@@ -30,6 +32,7 @@ public class Driver implements User
 
 	public Driver(String username, String name, String address, int region, String departFromHome, String departFromSchool, int seat) throws ParseException
 	{	
+		this.currentLocation = 0;
 		this.availableHome = true;
 		this.availableSchool = true;
 		this.availableSeat = seat;
@@ -42,8 +45,20 @@ public class Driver implements User
 		this.departFromHome = departFromHome;
 		this.departFromSchool = departFromSchool;
 		this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
+		notification = new ArrayList<>();
 	}
-
+	
+	public void displayNotification(){
+		System.out.println("***Notification***");
+		for(int i = 0; i < this.notification.size(); i++){
+			System.out.println(this.notification.get(i));
+		}
+		System.out.println();
+		
+	}
+	public void addNotification(String message){
+		this.notification.add(message);
+	}
 	public void displayRideHome()
 	{
 		if (!riderListHome.isEmpty()) 
@@ -175,5 +190,25 @@ public class Driver implements User
 	public MemberSchedule getMemberSchedule()
 	{
 		return this.memberSchedule;
+	}
+	
+	// Return array list of rider Driver have to pick up, by order 
+	public ArrayList<User> getRouteFromHome(){
+		this.currentLocation = this.region; // startingLocation = home
+		Route routeFromHome = new Route(this.riderListHome);
+		return routeFromHome.getRouteFromHome();
+	}
+	
+	public ArrayList<User> getRouteFromSchool(){
+		this.currentLocation = 0; // startingLocation = school
+		Route routeFromSchool = new Route(this.riderListSchool);
+		return routeFromSchool.getRouteFromSchool();
+	}
+	// Tracking driver's current Location
+	public void setCurrentLocation(int location){
+		this.currentLocation = location;
+	}
+	public int getCurrentLocation(){
+		return this.currentLocation;
 	}
 }

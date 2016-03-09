@@ -1,4 +1,5 @@
 import java.text.ParseException;
+import java.util.ArrayList;
 
 /**
  * The user interface for different users
@@ -6,6 +7,7 @@ import java.text.ParseException;
  */
 public interface User 
 {
+	public void displayNotification();
 	public void displayRideHome();
 	public void displayRideSchool();
 	public boolean addRideHome(User user) throws ParseException;

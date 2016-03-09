@@ -1,5 +1,6 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 /**
  * A class for the rider who is a user of the system
@@ -7,6 +8,7 @@ import java.text.SimpleDateFormat;
  */
 public class Rider implements User 
 {
+	private ArrayList<String> notification;
 	private Driver driverSchool = null;
 	private Driver driverHome = null;
 	private String address;
@@ -28,6 +30,7 @@ public class Rider implements User
 
 	public Rider(String username, String name, String address, int region, String departFromHome, String departFromSchool) throws ParseException
 	{	
+		this.notification = new ArrayList<>();
 		this.availableHome = true;
 		this.availableSchool = true;
 		this.fullName = name;
@@ -38,18 +41,24 @@ public class Rider implements User
 		this.departFromSchool = departFromSchool;
 		this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
 	}
-
+	// From Home
 	public boolean addRideHome(User user) throws ParseException
 	{
 		this.driverHome = new Driver();
 		this.driverHome = (Driver) user;
+		
+		this.addNotification("Your driver " + user.getName() + " will pick you up from Home");
 		return true;
 	}
 
+	// From School
 	public boolean addRideSchool(User user) throws ParseException
 	{
 		this.driverSchool = new Driver();
 		this.driverSchool = (Driver) user;
+
+		this.addNotification("Your driver " + user.getName() + " will pick you up from School");
+		
 		return true;
 	}
 
@@ -116,6 +125,18 @@ public class Rider implements User
 
 	}
 
+	public void displayNotification(){
+		System.out.println("***Notification***");
+		for(int i = 0; i < this.notification.size(); i++){
+			System.out.println(this.notification.get(i));
+		}
+		System.out.println();
+		
+	}
+	public void addNotification(String message){
+		this.notification.add(message);
+	}
+	
 	public void displayRideHome() 
 	{
 		if(this.driverHome!=null)
