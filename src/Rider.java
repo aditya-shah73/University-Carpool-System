@@ -43,6 +43,9 @@ public class Rider implements User
 		this.departFromSchool = departFromSchool;
 		this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
 	}
+	public Payment getPayment(){
+		return this.payment;
+	}
 	// From Home
 	public boolean addRideHome(User user) throws ParseException
 	{
