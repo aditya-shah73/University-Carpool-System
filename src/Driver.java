@@ -10,6 +10,7 @@ import java.util.Scanner;
  */
 public class Driver implements User, RideScheduleScheme
 {
+	Scanner sc = new Scanner(System.in);
 	private Payment payment;
 	private int currentLocation;
 	private ArrayList<String> notification;
@@ -19,7 +20,8 @@ public class Driver implements User, RideScheduleScheme
 	private String fullName;
 	private int region;
 	private String username;
-	private int availableSeat;
+	private int availableSeatSchool;
+	private int availableSeatHome;
 	private String departFromHome;
 	private String departFromSchool;
 	private MemberSchedule memberSchedule;
@@ -39,7 +41,8 @@ public class Driver implements User, RideScheduleScheme
 		this.currentLocation = 0;
 		this.availableHome = true;
 		this.availableSchool = true;
-		this.availableSeat = seat;
+		this.availableSeatHome = seat;
+		this.availableSeatSchool = seat;
 		this.riderListHome = new ArrayList<User>();
 		this.riderListSchool = new ArrayList<User>();
 		this.fullName = name;
@@ -119,18 +122,22 @@ public class Driver implements User, RideScheduleScheme
 		return this.availableSchool;
 	}
 
-	public int getAvailableSeat()
+	public int getAvailableSeatHome()
 	{
-		return this.availableSeat;
+		return this.availableSeatHome;
+	}
+	public int getAvailableSeatSchool()
+	{
+		return this.availableSeatSchool;
 	}
 
 	public boolean addRideHome(User rider)
 	{
-		if(this.availableSeat > 0)
+		if(this.availableSeatHome > 0)
 		{
-			this.availableSeat--;
+			this.availableSeatHome--;
 			this.riderListHome.add(rider);
-			if(this.availableSeat == 0)
+			if(this.availableSeatHome == 0)
 			{
 				this.notAvailableHome();
 			}
@@ -144,11 +151,11 @@ public class Driver implements User, RideScheduleScheme
 
 	public boolean addRideSchool(User rider)
 	{
-		if(this.availableSeat > 0)
+		if(this.availableSeatSchool > 0)
 		{
-			this.availableSeat--;
+			this.availableSeatSchool--;
 			this.riderListSchool.add(rider);
-			if(this.availableSeat == 0)
+			if(this.availableSeatSchool == 0)
 			{
 				this.notAvailableSchool();
 			}
@@ -232,66 +239,85 @@ public class Driver implements User, RideScheduleScheme
 		return this.payment;
 	}
 
-	public void pickUserSchool(User returnedUser) throws ParseException 
+
+	
+	// For RIDER to reserve seat
+	public void reserveOneSeatHome(User rider){
+		this.addRideHome(rider);
+		
+	}
+	public void reserveOneSeatSchool(User rider){
+		this.addRideSchool(rider);
+	}
+	
+	// THIS DRIVER choose RIDER to pick up from HOME
+	public void pickUserHome() throws ParseException 
 	{
-		Scanner sc = new Scanner(System.in);
+		// System suggestion
 		for(Map.Entry<String, User> entry : MainSystem.riderTable.entrySet())
 		{
-			if(entry.getValue().isAvailableSchool())
-			{
-				if(returnedUser.getRegion() - entry.getValue().getRegion() >= 0)
+			if(entry.getValue().isAvailableHome()){
+				if(this.getRegion() - entry.getValue().getRegion() >= 0)
 				{
-					if(returnedUser.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
+					if(this.getMemberSchedule().getHomeTime().equals(entry.getValue().getMemberSchedule().getHomeTime()))
 					{
 						System.out.println("You may pick up: " + entry.getValue().getName() + "  Username: " + entry.getValue().getUsername() +
-								" at " + format.format(returnedUser.getMemberSchedule().getSchoolTime()));
+								" at " + format.format(this.getMemberSchedule().getHomeTime()));
+					}
+				}
+			}
+		}
+		
+		// Driver choose
+		System.out.print("Enter the username you want to pickup or enter [0] to exit: ");
+		
+		String usernameChoice = sc.nextLine();
+		Rider rider = (Rider) MainSystem.riderTable.get(usernameChoice);
+		if(rider != null && rider.isAvailableHome())
+		{
+			rider.notAvailableHome();
+			this.addRideHome(MainSystem.riderTable.get(usernameChoice));
+			rider.addRideHome(this);
+			System.out.println("Done, you may now ride with: " + rider.getName());
+		}
+		else
+		{
+			System.out.println("This rider isn't available");
+		}
+	}
+	
+// THIS DRIVER choose RIDER to pick up from SCHOOL
+	public void pickUserSchool() throws ParseException 
+	{
+		for(Map.Entry<String, User> entry : MainSystem.riderTable.entrySet())
+		{
+		if(entry.getValue().isAvailableSchool())
+			{
+				if(this.getRegion() - entry.getValue().getRegion() >= 0)
+				{
+					if(this.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
+					{
+						System.out.println("You may pick up: " + entry.getValue().getName() + "  Username: " + entry.getValue().getUsername() +
+								" at " + format.format(this.getMemberSchedule().getSchoolTime()));
 					}
 				}
 			}
 		}
 		System.out.print("Enter the username you want to pickup or enter [0] to exit: ");
 		String usernameChoice = sc.nextLine();
-		if((MainSystem.riderTable.get(usernameChoice) != null) && (MainSystem.riderTable.get(usernameChoice).isAvailableSchool()))
+		Rider rider = (Rider) MainSystem.riderTable.get(usernameChoice);
+		if((rider != null) && (rider.isAvailableSchool()))
 		{
-			MainSystem.riderTable.get(usernameChoice).notAvailableSchool();
-			returnedUser.addRideSchool(MainSystem.riderTable.get(usernameChoice));
-			MainSystem.riderTable.get(usernameChoice).addRideSchool(returnedUser);
-			System.out.println("Done, ride with: " + MainSystem.riderTable.get(usernameChoice).getName());
+			rider.notAvailableSchool();
+				
+			this.addRideSchool(rider); // add RIDER to this DRIVER
+			rider.addRideSchool(this); // add THIS DRIVER to rider.
+				
+			System.out.println("Done, ride with: " + rider.getName());
 		} 
 		else
 		{
 			System.out.println("This rider isn't available");
 		}
-	}
-
-	public void pickUserHome(User returnedUser) throws ParseException 
-	{
-		Scanner sc = new Scanner(System.in);
-		for(Map.Entry<String, User> entry : MainSystem.riderTable.entrySet())
-		{
-			if(entry.getValue().isAvailableHome()){
-				if(returnedUser.getRegion() - entry.getValue().getRegion() >= 0)
-				{
-					if(returnedUser.getMemberSchedule().getHomeTime().equals(entry.getValue().getMemberSchedule().getHomeTime()))
-					{
-						System.out.println("You may pick up: " + entry.getValue().getName() + "  Username: " + entry.getValue().getUsername() +
-								" at " + format.format(returnedUser.getMemberSchedule().getHomeTime()));
-					}
-				}
-			}
-		}
-		System.out.print("Enter the username you want to pickup or enter [0] to exit: ");
-		String usernameChoice = sc.nextLine();
-		if(MainSystem.riderTable.get(usernameChoice) != null)
-		{
-			MainSystem.riderTable.get(usernameChoice).notAvailableHome();
-			returnedUser.addRideHome(MainSystem.riderTable.get(usernameChoice));
-			MainSystem.riderTable.get(usernameChoice).addRideHome(returnedUser);
-			System.out.println("Done, you may now ride with: " + MainSystem.riderTable.get(usernameChoice).getName());
-		}
-		else
-		{
-			System.out.println("This rider isn't available");
-		}
-	}
+	}	
 }

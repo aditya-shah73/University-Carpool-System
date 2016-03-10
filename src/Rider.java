@@ -1,6 +1,8 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  * A class for the rider who is a user of the system
@@ -8,6 +10,7 @@ import java.util.ArrayList;
  */
 public class Rider implements User, RideScheduleScheme 
 {
+	Scanner sc = new Scanner(System.in);
 	private Payment payment;
 	private ArrayList<String> notification;
 	private Driver driverSchool = null;
@@ -53,7 +56,6 @@ public class Rider implements User, RideScheduleScheme
 	// From Home
 	public boolean addRideHome(User user) throws ParseException
 	{
-		this.driverHome = new Driver();
 		this.driverHome = (Driver) user;
 		this.addNotification("Your driver " + user.getName() + " will pick you up from Home");
 		return true;
@@ -62,7 +64,6 @@ public class Rider implements User, RideScheduleScheme
 	// From School
 	public boolean addRideSchool(User user) throws ParseException
 	{
-		this.driverSchool = new Driver();
 		this.driverSchool = (Driver) user;
 		this.addNotification("Your driver " + user.getName() + " will pick you up from School");
 		return true;
@@ -174,13 +175,75 @@ public class Rider implements User, RideScheduleScheme
 		}
 	}
 
-	public void pickUserHome(User returnedUser) throws ParseException 
+	// Chosing Driver to pick up THIS rider from Home
+	public void pickUserHome() throws ParseException 
 	{
-		
+		for(Map.Entry<String, User> entry : MainSystem.driverTable.entrySet())
+		{
+			if(entry.getValue().isAvailableHome())
+			{
+				if(this.getRegion() - entry.getValue().getRegion() >= 0)
+				{
+					if(this.getMemberSchedule().getHomeTime().equals(entry.getValue().getMemberSchedule().getHomeTime()))
+					{
+						System.out.println("You may carpool with: " + entry.getValue().getName() + "  Username: " + entry.getValue().getUsername() +
+								" at " + format.format(this.getMemberSchedule().getHomeTime()));
+					}
+				}
+			}
+		}
+		System.out.print(" Enter the username of driver you want to carpool with, [0] to exit: ");
+		String usernameChoice = sc.nextLine();
+		Driver driver = (Driver) MainSystem.driverTable.get(usernameChoice);
+		// Check available
+		if((driver != null) && (driver.isAvailableHome()))
+		{
+			this.addRideHome(driver); // Add driver to pickup THIS rider
+			driver.reserveOneSeatHome(this); // reserve one seat from Home
+			
+			System.out.println("Done, ride with: " + driver.getName());
+		} 
+		else
+		{
+			System.out.println("This driver isn't available.");
+		}
+
 	}
 	
-	public void pickUserSchool(User returnedUser)throws ParseException
+	// Choosing Driver to pick up THIS rider from School
+	public void pickUserSchool()throws ParseException
 	{	
-		
+		for(Map.Entry<String, User> entry : MainSystem.driverTable.entrySet())
+		{
+			if(entry.getValue().isAvailableSchool())
+			{
+				if(this.getRegion() - entry.getValue().getRegion() >= 0)
+				{
+					if(this.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
+					{
+						System.out.println("You may carpool with: " + entry.getValue().getName() + "  Username: " + entry.getValue().getUsername() +
+								" at " + format.format(this.getMemberSchedule().getSchoolTime()));
+					}
+				}
+			}
+		}
+		System.out.print(" Enter the username of driver you want to carpool with, [0] to exit: ");
+		String usernameChoice = sc.nextLine();
+		Driver driver = (Driver) MainSystem.driverTable.get(usernameChoice);
+
+		// Check driver available
+		if((driver != null) && (driver.isAvailableSchool()))
+		{
+						
+			this.addRideSchool(driver); // Add driver to pickup THIS rider.
+			driver.reserveOneSeatSchool(this); // reserve one seat in driver
+			
+			System.out.println("Done, ride with: " + driver.getName());
+		} 
+		else
+		{
+			System.out.println("This driver isn't available.");
+		}
+
 	}
 }

@@ -10,6 +10,7 @@ import java.util.Scanner;
  */
 public class MainSystem 
 {
+	Scanner sc = new Scanner(System.in);
 	public static HashMap<String, User> riderTable = new HashMap<>(); // table of Rider
 	public static HashMap<String, User> driverTable = new HashMap<>(); // table of Driver
 	public SimpleDateFormat format = new SimpleDateFormat("hh:mm");
@@ -22,19 +23,8 @@ public class MainSystem
 		
 	}
 
-	private void displayCarpoolServiceDriver()
-	{
-		System.out.println("*******************************\n" +
-				"*       CARPOOL MENU          *\n" +
-				"* 1. Carpool from SJSU        *\n" +
-				"* 2. Carpool from home        *\n" +
-				"* 3. Display riding preferences *\n" +
-				"* 4. Logout                   *\n" + 
-				"*******************************"); 
-		System.out.print("Please enter your choice:");
-	}
 
-	private void displayCarpoolServiceRider()
+	private void displayCarpoolMenu()
 	{
 		System.out.println("********************************\n" +
 				"*       CARPOOL MENU           *\n" +
@@ -46,77 +36,89 @@ public class MainSystem
 		System.out.print("Please enter your choice:");
 	}
 
+	private void driverCarpoolMenu(User user) throws ParseException{
+		int choice = sc.nextInt();
+		Driver driver = (Driver) user;
+		
+		switch(choice){
+			case 1:
+				driver.pickUserSchool();
+				break;
+			case 2:
+				driver.pickUserHome();
+				break;
+			case 3:
+				driver.displayRideHome();
+				driver.displayRideSchool();
+				break;
+			case 4:
+				break;
+			default:
+				System.out.println("Invalid Input in Driver menu. Please try again.");
+				break;
+		}
+	}
+	
+	private void riderCarpoolMenu(User user) throws ParseException{
+		int choice = sc.nextInt();
+		Rider rider = (Rider) user;
+
+		switch(choice){
+			case 1:
+				rider.pickUserSchool();
+				break;
+			case 2:
+				rider.pickUserHome();
+				break;
+			case 3:
+				rider.displayRideHome();
+				rider.displayRideSchool();
+				break;
+			case 4:
+				break;
+			default:
+				System.out.println("Invalid Input. Please try again.");
+				break;
+		}
+	}
+	
 	public User login() throws ParseException
 	{
 		User returnedUser;
-		Scanner sc = new Scanner(System.in);
 		System.out.print("Please enter your username: ");
 		String username = sc.nextLine();
 		if(this.driverTable.get(username) != null)
 		{
 			returnedUser = this.driverTable.get(username);
 			System.out.printf("\nLogin Successful!!!\nCurrent User - %s: %s  %s\n\n", returnedUser.getStatus(), returnedUser.getName(), returnedUser.getAddress());
+			
 		}
 		else if(this.riderTable.get(username) != null)
 		{
 			returnedUser = this.riderTable.get(username);
 			System.out.printf("\nLogin Successful!!!\nCurrent User - %s: %s  %s\n\n", returnedUser.getStatus(), returnedUser.getName(), returnedUser.getAddress());
+			
 		}
 		else
 		{
 			System.out.println("\nError with login, please try another username");
 			returnedUser = null;
 		}
-		int choice;
-		do 
-		{
-			if (returnedUser.getStatus().equals("Driver")) 
-			{
-				displayCarpoolServiceDriver();
-			}
-			else 
-			{
-				displayCarpoolServiceRider();
-			}
+		
+		// Display Carpool Menu
+		if(returnedUser != null){
+			displayCarpoolMenu();
+		}
+		
+		// Driver display
+		if(returnedUser.getStatus().equalsIgnoreCase("Driver")){
+			driverCarpoolMenu(returnedUser);
+		}
+		else{
+			riderCarpoolMenu(returnedUser);
+		}
+		
 
-			choice = sc.nextInt();
-			switch (choice) 
-			{
-			case 1:
-			{
-				if (returnedUser.getStatus() == "Driver")
-				{
-					Driver d = (Driver) returnedUser;
-					d.pickUserSchool(returnedUser);
-				}
-				break;
-			}
-			case 2:
-			{
-				if(returnedUser.getStatus() == "Driver")
-				{
-					Driver d = (Driver) returnedUser;
-					d.pickUserHome(returnedUser);
-				}
-				break;
-			}	
-			case 3:
-			{
-				returnedUser.displayRideHome();
-				returnedUser.displayRideSchool();	
-				break;
-			}
-			case 4:
-			{
-				break;
-			}
-			default:
-			{
-				System.out.println("Wrong input...");
-			}
-			}
-		} 
-		while (choice != 4);
 		return returnedUser;
 	}
 
