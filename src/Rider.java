@@ -1,12 +1,13 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A class for the rider who is a user of the system
  * @author Group 8
  */
-public class Rider implements User 
+public class Rider implements User, RideScheduleScheme 
 {
 	private Payment payment;
 	private ArrayList<String> notification;
@@ -22,7 +23,8 @@ public class Rider implements User
 	private boolean availableHome;
 	private boolean availableSchool;
 	SimpleDateFormat format = new SimpleDateFormat("hh:mm");
-
+	public MainSystem admin = new MainSystem();
+		
 	// Default Constructor
 	public Rider() throws ParseException
 	{
@@ -147,7 +149,7 @@ public class Rider implements User
 		if(this.driverHome!=null)
 		{
 			System.out.println("You will be picked up from home by: " + this.driverHome.getName() + "\tat " + 
-					format.format(this.driverHome.getMemberSchedule().getHomeTime()));
+					format.format(this.driverHome.getMemberSchedule().getHomeTime())); 
 		} 
 		else
 		{
@@ -162,11 +164,22 @@ public class Rider implements User
 		if (this.driverSchool != null)
 		{
 			System.out.println("You will be picked up from school by: " + this.driverSchool.getName() + "\tat " + 
-					format.format(this.driverSchool.getMemberSchedule().getSchoolTime()));
+					format.format(this.driverSchool.getMemberSchedule().getSchoolTime())); 
 		} 
 		else
 		{
 			System.out.println("No ride from school available");
 		}
+	}
+
+	public void pickUserHome(User returnedUser) throws ParseException {
+		
+		
+	}
+	
+	
+	public void pickUserSchool(User returnedUser)throws ParseException {
+		
+		
 	}
 }

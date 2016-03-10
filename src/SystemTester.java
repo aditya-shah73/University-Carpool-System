@@ -14,7 +14,14 @@ public class SystemTester
 		boolean exit = false;
 		while(exit == false)
 		{
-			mainSystem.displayMainInterface();
+			System.out.println("***************************\n" +
+					"*        MAIN MENU        *\n" +
+					"* 1. Creating new user    *\n" +
+					"* 2. Display all user     *\n" +
+					"* 3. Login                *\n" + 
+					"* 4. Exit                 *\n" + 
+					"***************************"); 
+			System.out.print("Please enter your choice:");
 			int choice = in.nextInt();
 			switch(choice)
 			{

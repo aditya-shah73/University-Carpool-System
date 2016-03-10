@@ -10,20 +10,20 @@ import java.util.Scanner;
  */
 public class MainSystem 
 {
-	private HashMap<String, User> riderTable = new HashMap<>(); // table of Rider
-	private HashMap<String, User> driverTable = new HashMap<>(); // table of Driver
-	SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+	public static HashMap<String, User> riderTable = new HashMap<>(); // table of Rider
+	public static HashMap<String, User> driverTable = new HashMap<>(); // table of Driver
+	public SimpleDateFormat format = new SimpleDateFormat("hh:mm");
 
 	public MainSystem() throws ParseException
 	{
-		riderTable.put("paul1", new Rider("paul1", "paul1", "123a", 5, "8:00", "2:00"));
-		riderTable.put("adi", new Rider("adi", "adi", "123b", 2, "10:00", "2:00"));
-		riderTable.put("rav", new Rider("rav", "rav", "241", 6, "10:00", "2:00"));
-		driverTable.put("paul2", new Driver("paul2", "paul2", "123b", 7, "8:00", "2:00", 3));
-		driverTable.put("dav", new Driver("dav", "dav", "123 CC", 3, "10:00", "2:00", 2));
+//		riderTable.put("paul1", new Rider("paul1", "paul1", "123a", 5, "8:00", "2:00"));
+//		riderTable.put("adi", new Rider("adi", "adi", "123b", 2, "10:00", "2:00"));
+	//	riderTable.put("rav", new Rider("rav", "rav", "241", 6, "10:00", "2:00"));
+	//	driverTable.put("paul2", new Driver("paul2", "paul2", "123b", 7, "8:00", "2:00", 3));
+	//	driverTable.put("dav", new Driver("dav", "dav", "123 CC", 3, "10:00", "2:00", 2));
 	}
 
-	public void displayMainInterface()
+	/*public void displayMainInterface()
 	{
 		System.out.println("***************************\n" +
 				"*        MAIN MENU        *\n" +
@@ -33,7 +33,7 @@ public class MainSystem
 				"* 4. Exit                 *\n" + 
 				"***************************"); 
 		System.out.print("Please enter your choice:");
-	}
+	}*/
 
 	private void displayCarpoolServiceDriver()
 	{
@@ -97,8 +97,15 @@ public class MainSystem
 			{
 			case 1:
 			{
-				if(returnedUser.getStatus() == "Driver")
+
+				if (returnedUser.getStatus() == "Driver")
 				{
+					Driver d = (Driver) returnedUser;
+					d.pickUserSchool(returnedUser);
+				}
+
+
+				/*
 					for(Map.Entry<String, User> entry : riderTable.entrySet())
 					{
 						if(entry.getValue().isAvailableSchool())
@@ -141,7 +148,7 @@ public class MainSystem
 							}
 						}
 					}		
-				}
+				}*/
 				System.out.println();
 				break;
 			}
@@ -149,6 +156,13 @@ public class MainSystem
 			{
 				if(returnedUser.getStatus() == "Driver")
 				{
+
+					Driver d = (Driver) returnedUser;
+					d.pickUserHome(returnedUser);
+
+
+				}
+				/*
 					for(Map.Entry<String, User> entry : riderTable.entrySet())
 					{
 						if(entry.getValue().isAvailableHome()){
@@ -185,7 +199,7 @@ public class MainSystem
 							}
 						}
 					}		
-				}
+				}*/
 				System.out.println();
 				break;
 			}	
@@ -225,6 +239,7 @@ public class MainSystem
 						" Address: " + entry.getValue().getAddress() + " Region: " + entry.getValue().getRegion() +
 						" Leaves Home at: " + format.format(entry.getValue().getMemberSchedule().getHomeTime()) + 
 						" Leaves SJSU at: " + format.format(entry.getValue().getMemberSchedule().getSchoolTime()));
+			
 			}
 			System.out.println("---------------------------------------------------------------------");
 		}
@@ -242,6 +257,7 @@ public class MainSystem
 						" Address: " + entry.getValue().getAddress() + " Region: " + entry.getValue().getRegion()+
 						" Leaves Home at: " + format.format(entry.getValue().getMemberSchedule().getHomeTime()) + 
 						" Leaves SJSU at: " + format.format(entry.getValue().getMemberSchedule().getSchoolTime()));
+			
 			}
 			System.out.println("---------------------------------------------------------------------");
 		}

@@ -1,12 +1,15 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  * A class for the driver who is a user of the system
  * @author Group 8 
  */
-public class Driver implements User
+public class Driver implements User, RideScheduleScheme
 {
 	private Payment payment;
 	private int currentLocation;
@@ -217,5 +220,74 @@ public class Driver implements User
 	// get Payment
 	public Payment getPayment(){
 		return this.payment;
+	}
+
+	
+	public void pickUserSchool(User returnedUser) throws ParseException {
+		
+		Scanner sc = new Scanner(System.in);
+		for(Map.Entry<String, User> entry : MainSystem.riderTable.entrySet())
+		{
+			if(entry.getValue().isAvailableSchool())
+			{
+				if(returnedUser.getRegion() - entry.getValue().getRegion() >= 0)
+				{
+					if(returnedUser.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
+					{
+						System.out.println("You may pick up: " + entry.getValue().getName() + "\tUsername: " + entry.getValue().getUsername() +
+								" at " + format.format(returnedUser.getMemberSchedule().getSchoolTime()));
+					}
+				}
+			}
+		}
+		System.out.print("Enter username to pickup, [0] to exit: ");
+		sc.nextLine();
+		String usernameChoice = sc.nextLine();
+
+		if((MainSystem.riderTable.get(usernameChoice) != null) && (MainSystem.riderTable.get(usernameChoice).isAvailableSchool()))
+		{
+			MainSystem.riderTable.get(usernameChoice).notAvailableSchool();
+			returnedUser.addRideSchool(MainSystem.riderTable.get(usernameChoice));
+			MainSystem.riderTable.get(usernameChoice).addRideSchool(returnedUser);
+			System.out.println("Done, ride with: " + MainSystem.riderTable.get(usernameChoice).getName());
+		} 
+		else
+		{
+			System.out.println("This rider isn't available");
+		}
+		
+	}
+	
+	public void pickUserHome(User returnedUser) throws ParseException {
+		Scanner sc = new Scanner(System.in);
+
+		for(Map.Entry<String, User> entry : MainSystem.riderTable.entrySet())
+		{
+			if(entry.getValue().isAvailableHome()){
+				if(returnedUser.getRegion() - entry.getValue().getRegion() >= 0)
+				{
+					if(returnedUser.getMemberSchedule().getHomeTime().equals(entry.getValue().getMemberSchedule().getHomeTime()))
+					{
+						System.out.println("You may pick up: " + entry.getValue().getName() + "\tUsername: " + entry.getValue().getUsername() +
+								" at " + format.format(returnedUser.getMemberSchedule().getHomeTime()));
+					}
+				}
+			}
+		}
+		System.out.print("Enter username to pickup, [0] to exit: ");
+		sc.nextLine();
+		String usernameChoice = sc.nextLine();
+		if(MainSystem.riderTable.get(usernameChoice) != null)
+		{
+			MainSystem.riderTable.get(usernameChoice).notAvailableHome();
+			returnedUser.addRideHome(MainSystem.riderTable.get(usernameChoice));
+			MainSystem.riderTable.get(usernameChoice).addRideHome(returnedUser);
+			System.out.println("Done, ride with: " + MainSystem.riderTable.get(usernameChoice).getName());
+		}
+		else
+		{
+			System.out.println("This rider isn't available");
+		}
+		
 	}
 }
