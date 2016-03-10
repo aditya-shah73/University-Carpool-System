@@ -1,5 +1,4 @@
 import java.text.ParseException;
-import java.util.ArrayList;
 
 /**
  * The user interface for different users

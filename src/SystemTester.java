@@ -16,8 +16,8 @@ public class SystemTester
 		{
 			System.out.println("***************************\n" +
 					"*        MAIN MENU        *\n" +
-					"* 1. Creating new user    *\n" +
-					"* 2. Display all user     *\n" +
+					"* 1. Create a new user    *\n" +
+					"* 2. Display all users    *\n" +
 					"* 3. Login                *\n" + 
 					"* 4. Exit                 *\n" + 
 					"***************************"); 
@@ -30,11 +30,11 @@ public class SystemTester
 				User newUser = mainSystem.createNewUser();
 				if(newUser != null)
 				{
-					System.out.printf("\n  New User Created! - %s: %s  %s\n\n", newUser.getStatus(), newUser.getName(), newUser.getAddress());
+					System.out.printf("\nNew User Created! - %s: %s  %s\n\n", newUser.getStatus(), newUser.getName(), newUser.getAddress());
 				} 
 				else 
 				{
-					System.out.println("\n  Error with creating new user");
+					System.out.println("\nError with creating new user");
 				}
 				break;
 			}
@@ -55,7 +55,7 @@ public class SystemTester
 			}
 			default:
 			{
-				System.out.println("\n Invalid Input, please retry.");
+				System.out.println("\nInvalid Input, please retry.");
 				break;
 			}
 			}

@@ -1,7 +1,6 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * A class for the rider who is a user of the system
@@ -45,15 +44,17 @@ public class Rider implements User, RideScheduleScheme
 		this.departFromSchool = departFromSchool;
 		this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
 	}
-	public Payment getPayment(){
+	
+	public Payment getPayment()
+	{
 		return this.payment;
 	}
+	
 	// From Home
 	public boolean addRideHome(User user) throws ParseException
 	{
 		this.driverHome = new Driver();
 		this.driverHome = (Driver) user;
-		
 		this.addNotification("Your driver " + user.getName() + " will pick you up from Home");
 		return true;
 	}
@@ -63,9 +64,7 @@ public class Rider implements User, RideScheduleScheme
 	{
 		this.driverSchool = new Driver();
 		this.driverSchool = (Driver) user;
-
 		this.addNotification("Your driver " + user.getName() + " will pick you up from School");
-		
 		return true;
 	}
 
@@ -128,19 +127,24 @@ public class Rider implements User, RideScheduleScheme
 	{
 		return this.memberSchedule;
 	}
-	public void addDriver(){
+	
+	public void addDriver()
+	{
 
 	}
 
-	public void displayNotification(){
+	public void displayNotification()
+	{
 		System.out.println("***Notification***");
-		for(int i = 0; i < this.notification.size(); i++){
+		for(int i = 0; i < this.notification.size(); i++)
+		{
 			System.out.println(this.notification.get(i));
 		}
 		System.out.println();
-		
 	}
-	public void addNotification(String message){
+	
+	public void addNotification(String message)
+	{
 		this.notification.add(message);
 	}
 	
@@ -155,8 +159,6 @@ public class Rider implements User, RideScheduleScheme
 		{
 			System.out.println("No ride from home available");
 		}
-
-
 	}
 
 	public void displayRideSchool() 
@@ -172,14 +174,13 @@ public class Rider implements User, RideScheduleScheme
 		}
 	}
 
-	public void pickUserHome(User returnedUser) throws ParseException {
-		
+	public void pickUserHome(User returnedUser) throws ParseException 
+	{
 		
 	}
 	
-	
-	public void pickUserSchool(User returnedUser)throws ParseException {
-		
+	public void pickUserSchool(User returnedUser)throws ParseException
+	{	
 		
 	}
 }
