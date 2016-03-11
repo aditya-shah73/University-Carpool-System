@@ -217,10 +217,15 @@ public class Rider implements User, RideScheduleScheme
 		{
 			if(entry.getValue().isAvailableSchool())
 			{
-				if(this.getRegion() - entry.getValue().getRegion() >= 0)
+				System.out.println("LOOP2");
+				if(entry.getValue().getRegion() - this.getRegion()  >= 0)
 				{
+					System.out.println("LOOP3");
+
 					if(this.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
 					{
+						System.out.println("LOOP4");
+
 						System.out.println("You may carpool with: " + entry.getValue().getName() + "  Username: " + entry.getValue().getUsername() +
 								" at " + format.format(this.getMemberSchedule().getSchoolTime()));
 					}

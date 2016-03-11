@@ -37,7 +37,12 @@ public class MainSystem
 	}
 
 	private void driverCarpoolMenu(User user) throws ParseException{
-		int choice = sc.nextInt();
+		int choice;
+		
+		
+		do {
+			displayCarpoolMenu();
+		choice = sc.nextInt();
 		Driver driver = (Driver) user;
 		
 		switch(choice){
@@ -57,10 +62,16 @@ public class MainSystem
 				System.out.println("Invalid Input in Driver menu. Please try again.");
 				break;
 		}
+		} while (choice != 4);
 	}
 	
 	private void riderCarpoolMenu(User user) throws ParseException{
-		int choice = sc.nextInt();
+		int choice;
+		
+		do {
+		displayCarpoolMenu();
+
+		choice = sc.nextInt();
 		Rider rider = (Rider) user;
 
 		switch(choice){
@@ -80,13 +91,14 @@ public class MainSystem
 				System.out.println("Invalid Input. Please try again.");
 				break;
 		}
+		} while (choice != 4);
 	}
 	
 	public User login() throws ParseException
 	{
 		User returnedUser;
 		System.out.print("Please enter your username: ");
-		String username = sc.nextLine();
+		String username = sc.next();
 		if(this.driverTable.get(username) != null)
 		{
 			returnedUser = this.driverTable.get(username);
@@ -104,12 +116,12 @@ public class MainSystem
 			System.out.println("\nError with login, please try another username");
 			returnedUser = null;
 		}
-		
+		/*
 		// Display Carpool Menu
 		if(returnedUser != null){
 			displayCarpoolMenu();
 		}
-		
+		*/
 		// Driver display
 		if(returnedUser.getStatus().equalsIgnoreCase("Driver")){
 			driverCarpoolMenu(returnedUser);
@@ -118,7 +130,6 @@ public class MainSystem
 			riderCarpoolMenu(returnedUser);
 		}
 		
-
 		return returnedUser;
 	}
 
