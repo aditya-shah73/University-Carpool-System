@@ -14,7 +14,6 @@ public class MainSystem
 	public static HashMap<String, User> riderTable = new HashMap<>(); // table of Rider
 	public static HashMap<String, User> driverTable = new HashMap<>(); // table of Driver
 	public SimpleDateFormat format = new SimpleDateFormat("hh:mm");
-
 	/*
 	 * Default constructor
 	 */
@@ -38,19 +37,19 @@ public class MainSystem
 
 	private void driverCarpoolMenu(User user) throws ParseException{
 		int choice;
-		
-		
+		user.displayNotification();
 		do {
 			displayCarpoolMenu();
 		choice = sc.nextInt();
 		Driver driver = (Driver) user;
-		
+		SchemeContext schemeContext = new SchemeContext(driver);
 		switch(choice){
 			case 1:
-				driver.pickUserSchool();
+				schemeContext.executeScheme(driver, choice);				
 				break;
 			case 2:
-				driver.pickUserHome();
+				schemeContext = new SchemeContext(driver);
+				schemeContext.executeScheme(driver, choice);
 				break;
 			case 3:
 				driver.displayRideHome();
@@ -67,19 +66,21 @@ public class MainSystem
 	
 	private void riderCarpoolMenu(User user) throws ParseException{
 		int choice;
-		
+		user.displayNotification();
 		do {
 		displayCarpoolMenu();
 
 		choice = sc.nextInt();
 		Rider rider = (Rider) user;
-
+		SchemeContext schemeContext;
 		switch(choice){
 			case 1:
-				rider.pickUserSchool();
+				schemeContext = new SchemeContext(rider);
+				schemeContext.executeScheme(rider, choice);
 				break;
 			case 2:
-				rider.pickUserHome();
+				schemeContext = new SchemeContext(rider);
+				schemeContext.executeScheme(rider, choice);
 				break;
 			case 3:
 				rider.displayRideHome();
