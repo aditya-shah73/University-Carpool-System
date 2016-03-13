@@ -5,7 +5,7 @@ import java.util.Scanner;
  * Main Class which runs the system
  * @author Group 8
  */
-public class SystemTester 
+public class CarpoolSystem 
 {
 	public static void main(String[] args) throws ParseException
 	{
