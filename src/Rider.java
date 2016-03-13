@@ -26,7 +26,7 @@ public class Rider implements User, RideScheduleScheme
 	private boolean availableSchool;
 	SimpleDateFormat format = new SimpleDateFormat("hh:mm");
 	public MainSystem admin = new MainSystem();
-		
+
 	// Default Constructor
 	public Rider() throws ParseException
 	{
@@ -47,12 +47,12 @@ public class Rider implements User, RideScheduleScheme
 		this.departFromSchool = departFromSchool;
 		this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
 	}
-	
+
 	public Payment getPayment()
 	{
 		return this.payment;
 	}
-	
+
 	// From Home
 	public boolean addRideHome(User user) throws ParseException
 	{
@@ -128,7 +128,7 @@ public class Rider implements User, RideScheduleScheme
 	{
 		return this.memberSchedule;
 	}
-	
+
 	public void addDriver()
 	{
 
@@ -143,12 +143,12 @@ public class Rider implements User, RideScheduleScheme
 		}
 		System.out.println();
 	}
-	
+
 	public void addNotification(String message)
 	{
 		this.notification.add(message);
 	}
-	
+
 	public void displayRideHome() 
 	{
 		if(this.driverHome!=null)
@@ -200,7 +200,7 @@ public class Rider implements User, RideScheduleScheme
 		{
 			this.addRideHome(driver); // Add driver to pickup THIS rider
 			driver.reserveOneSeatHome(this); // reserve one seat from Home
-			
+
 			System.out.println("Done, ride with: " + driver.getName());
 		} 
 		else
@@ -209,7 +209,7 @@ public class Rider implements User, RideScheduleScheme
 		}
 
 	}
-	
+
 	// Choosing Driver to pick up THIS rider from School
 	public void pickUserSchool()throws ParseException
 	{	
@@ -234,10 +234,10 @@ public class Rider implements User, RideScheduleScheme
 		// Check driver available
 		if((driver != null) && (driver.isAvailableSchool()))
 		{
-						
+
 			this.addRideSchool(driver); // Add driver to pickup THIS rider.
 			driver.reserveOneSeatSchool(this); // reserve one seat in driver
-			
+
 			System.out.println("Done, ride with: " + driver.getName());
 		} 
 		else

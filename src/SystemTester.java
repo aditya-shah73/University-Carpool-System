@@ -23,7 +23,6 @@ public class SystemTester
 		mainSystem.riderTable.put("rav03" , new Rider("rav03" , "Ravuth #3", "Ravuth #3 Address", 4, "10:00AM", "4:00PM"));
 		mainSystem.riderTable.put("rav04" , new Rider("rav04" , "Ravuth #4", "Ravuth #4 Address", 5, "11:00AM", "5:00PM"));
 		mainSystem.riderTable.put("rav05" , new Rider("rav05" , "Ravuth #5", "Ravuth #5 Address", 6, "8:00AM", "4:00PM"));
-		//
 		
 		Scanner in = new Scanner(System.in);
 		boolean exit = false;

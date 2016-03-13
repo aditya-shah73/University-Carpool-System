@@ -64,12 +64,12 @@ public class Driver implements User, RideScheduleScheme
 		}
 		System.out.println();
 	}
-	
+
 	public void addNotification(String message)
 	{
 		this.notification.add(message);
 	}
-	
+
 	public void displayRideHome()
 	{
 		if (!riderListHome.isEmpty()) 
@@ -126,6 +126,7 @@ public class Driver implements User, RideScheduleScheme
 	{
 		return this.availableSeatHome;
 	}
+	
 	public int getAvailableSeatSchool()
 	{
 		return this.availableSeatSchool;
@@ -221,13 +222,13 @@ public class Driver implements User, RideScheduleScheme
 		Route routeFromSchool = new Route(this.riderListSchool);
 		return routeFromSchool.getRouteFromSchool();
 	}
-	
+
 	// Tracking driver's current Location
 	public void setCurrentLocation(int location)
 	{
 		this.currentLocation = location;
 	}
-	
+
 	public int getCurrentLocation()
 	{
 		return this.currentLocation;
@@ -239,17 +240,17 @@ public class Driver implements User, RideScheduleScheme
 		return this.payment;
 	}
 
-
-	
 	// For RIDER to reserve seat
-	public void reserveOneSeatHome(User rider){
+	public void reserveOneSeatHome(User rider)
+	{
 		this.addRideHome(rider);
-		
 	}
-	public void reserveOneSeatSchool(User rider){
+	
+	public void reserveOneSeatSchool(User rider)
+	{
 		this.addRideSchool(rider);
 	}
-	
+
 	// THIS DRIVER choose RIDER to pick up from HOME
 	public void pickUserHome() throws ParseException 
 	{
@@ -267,10 +268,10 @@ public class Driver implements User, RideScheduleScheme
 				}
 			}
 		}
-		
+
 		// Driver choose
 		System.out.print("Enter the username you want to pickup or enter [0] to exit: ");
-		
+
 		String usernameChoice = sc.nextLine();
 		Rider rider = (Rider) MainSystem.riderTable.get(usernameChoice);
 		if(rider != null && rider.isAvailableHome())
@@ -285,13 +286,13 @@ public class Driver implements User, RideScheduleScheme
 			System.out.println("This rider isn't available");
 		}
 	}
-	
-// THIS DRIVER choose RIDER to pick up from SCHOOL
+
+	// THIS DRIVER choose RIDER to pick up from SCHOOL
 	public void pickUserSchool() throws ParseException 
 	{
 		for(Map.Entry<String, User> entry : MainSystem.riderTable.entrySet())
 		{
-		if(entry.getValue().isAvailableSchool())
+			if(entry.getValue().isAvailableSchool())
 			{
 				if(this.getRegion() - entry.getValue().getRegion() >= 0)
 				{
@@ -303,16 +304,15 @@ public class Driver implements User, RideScheduleScheme
 				}
 			}
 		}
+
 		System.out.print("Enter the username you want to pickup or enter [0] to exit: ");
 		String usernameChoice = sc.nextLine();
 		Rider rider = (Rider) MainSystem.riderTable.get(usernameChoice);
 		if((rider != null) && (rider.isAvailableSchool()))
 		{
 			rider.notAvailableSchool();
-				
 			this.addRideSchool(rider); // add RIDER to this DRIVER
 			rider.addRideSchool(this); // add THIS DRIVER to rider.
-				
 			System.out.println("Done, ride with: " + rider.getName());
 		} 
 		else

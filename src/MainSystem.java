@@ -14,14 +14,14 @@ public class MainSystem
 	public static HashMap<String, User> riderTable = new HashMap<>(); // table of Rider
 	public static HashMap<String, User> driverTable = new HashMap<>(); // table of Driver
 	public SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+
 	/*
 	 * Default constructor
 	 */
 	public MainSystem() throws ParseException
 	{
-		
-	}
 
+	}
 
 	private void displayCarpoolMenu()
 	{
@@ -40,61 +40,86 @@ public class MainSystem
 		user.displayNotification();
 		do {
 			displayCarpoolMenu();
-		choice = sc.nextInt();
-		Driver driver = (Driver) user;
-		SchemeContext schemeContext = new SchemeContext(driver);
-		switch(choice){
+			choice = sc.nextInt();
+			Driver driver = (Driver) user;
+			SchemeContext schemeContext = new SchemeContext(driver);
+			switch(choice)
+			{
 			case 1:
+			{
 				schemeContext.executeScheme(driver, choice);				
 				break;
+			}
 			case 2:
+			{
 				schemeContext = new SchemeContext(driver);
 				schemeContext.executeScheme(driver, choice);
 				break;
+			}
 			case 3:
+			{
 				driver.displayRideHome();
 				driver.displayRideSchool();
 				break;
+			}
 			case 4:
+			{
 				break;
+			}
 			default:
+			{
 				System.out.println("Invalid Input in Driver menu. Please try again.");
 				break;
-		}
-		} while (choice != 4);
+			}
+			}
+		} 
+		while (choice != 4);
 	}
-	
-	private void riderCarpoolMenu(User user) throws ParseException{
+
+	private void riderCarpoolMenu(User user) throws ParseException
+	{
 		int choice;
 		user.displayNotification();
-		do {
-		displayCarpoolMenu();
-
-		choice = sc.nextInt();
-		Rider rider = (Rider) user;
-		SchemeContext schemeContext;
-		switch(choice){
+		do 
+		{
+			displayCarpoolMenu();
+			choice = sc.nextInt();
+			Rider rider = (Rider) user;
+			SchemeContext schemeContext;
+			switch(choice)
+			{
 			case 1:
+			{
 				schemeContext = new SchemeContext(rider);
 				schemeContext.executeScheme(rider, choice);
 				break;
+			}
 			case 2:
+			{
 				schemeContext = new SchemeContext(rider);
 				schemeContext.executeScheme(rider, choice);
 				break;
+			}
 			case 3:
+			{
 				rider.displayRideHome();
 				rider.displayRideSchool();
 				break;
+			}
 			case 4:
+			{
 				break;
+			}
 			default:
+			{
 				System.out.println("Invalid Input. Please try again.");
 				break;
-		}
-		} while (choice != 4);
+			}
+			}
+		} 
+		while (choice != 4);
 	}
-	
+
 	public User login() throws ParseException
 	{
 		User returnedUser;
@@ -104,33 +129,30 @@ public class MainSystem
 		{
 			returnedUser = this.driverTable.get(username);
 			System.out.printf("\nLogin Successful!!!\nCurrent User - %s: %s  %s\n\n", returnedUser.getStatus(), returnedUser.getName(), returnedUser.getAddress());
-			
+
 		}
 		else if(this.riderTable.get(username) != null)
 		{
 			returnedUser = this.riderTable.get(username);
 			System.out.printf("\nLogin Successful!!!\nCurrent User - %s: %s  %s\n\n", returnedUser.getStatus(), returnedUser.getName(), returnedUser.getAddress());
-			
+
 		}
 		else
 		{
 			System.out.println("\nError with login, please try another username");
 			returnedUser = null;
 		}
-		/*
-		// Display Carpool Menu
-		if(returnedUser != null){
-			displayCarpoolMenu();
-		}
-		*/
+		
 		// Driver display
-		if(returnedUser.getStatus().equalsIgnoreCase("Driver")){
+		if(returnedUser.getStatus().equalsIgnoreCase("Driver"))
+		{
 			driverCarpoolMenu(returnedUser);
 		}
-		else{
+		else
+		{
 			riderCarpoolMenu(returnedUser);
 		}
-		
+
 		return returnedUser;
 	}
 
