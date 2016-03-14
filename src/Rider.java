@@ -180,10 +180,17 @@ public class Rider implements User, RideScheduleScheme
 	{
 		for(Map.Entry<String, User> entry : MainSystem.driverTable.entrySet())
 		{
+			System.out.println("PRINT 0");
+
+			System.out.println("PRINT 1");
 			if(entry.getValue().isAvailableHome())
 			{
-				if(this.getRegion() - entry.getValue().getRegion() >= 0)
+				System.out.println("PRINT 2");
+
+				if(entry.getValue().getRegion() - this.getRegion() >= 0)
 				{
+					System.out.println("PRINT 3");
+
 					if(this.getMemberSchedule().getHomeTime().equals(entry.getValue().getMemberSchedule().getHomeTime()))
 					{
 						System.out.println("You may carpool with: " + entry.getValue().getName() + "  Username: " + entry.getValue().getUsername() +
