@@ -51,18 +51,18 @@ public class Rider implements User, RideScheduleScheme
 	}
 
 	public void payDriverCash(Driver driver, int distance){
-		Payment payment = new PayCash(driver, distance);
-		PaymentCaller paymentCaller = new PaymentCaller(payment);
-		paymentCaller.execute();
+		Payment payment = new PayCashConcrete(driver, distance);
+		AbstractPaymentCaller paymentCaller = new PayByCash(payment);
+		paymentCaller.executePay();
 		
 		this.cash -= distance * 0.5; // charge rider cash
 		
 	}
 
 	public void payDriverCredit(Driver driver, int distance){
-		Payment payment = new PayCredit(driver, distance);
-		PaymentCaller paymentCaller = new PaymentCaller(payment);
-		paymentCaller.execute();
+		Payment payment = new PayCreditConcrete(driver, distance);
+		AbstractPaymentCaller paymentCaller = new PayByCredit(payment);
+		paymentCaller.executePay();
 		
 		this.credit -= distance * 1; // charge rider credit
 	}

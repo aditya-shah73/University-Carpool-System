@@ -1,9 +1,9 @@
 
-public class PayCredit implements Payment{
+public class PayCreditConcrete implements Payment{
 	private Driver driver;
 	private int distance;
 	
-	public PayCredit(Driver driver, int distance){
+	public PayCreditConcrete(Driver driver, int distance){
 		this.distance = distance;
 		this.driver = driver;
 	}

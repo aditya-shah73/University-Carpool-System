@@ -1,9 +1,9 @@
 
-public class PayCash implements Payment {
+public class PayCashConcrete implements Payment {
 	private Driver driver;
 	private int distance;
 	
-	public PayCash(Driver driver, int distance){
+	public PayCashConcrete(Driver driver, int distance){
 		this.distance = distance;
 		this.driver = driver;
 	}
