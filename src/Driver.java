@@ -10,8 +10,9 @@ import java.util.Scanner;
  */
 public class Driver implements User, RideScheduleScheme
 {
-	Scanner sc = new Scanner(System.in);
-	private Payment payment;
+	private Scanner sc = new Scanner(System.in);
+	private int credit;
+	private double cash;
 	private int currentLocation;
 	private ArrayList<String> notification;
 	private ArrayList<User> riderListSchool;
@@ -37,7 +38,8 @@ public class Driver implements User, RideScheduleScheme
 
 	public Driver(String username, String name, String address, int region, String departFromHome, String departFromSchool, int seat) throws ParseException
 	{	
-		this.payment = new Payment();
+		this.credit = 20;
+		this.cash = 20.0;
 		this.currentLocation = 0;
 		this.availableHome = true;
 		this.availableSchool = true;
@@ -55,6 +57,20 @@ public class Driver implements User, RideScheduleScheme
 		notification = new ArrayList<>();
 	}
 
+	public double viewCash(){
+		double cashClone = this.cash;
+		return cashClone;
+	}
+	public int viewCredit(){
+		int creditClone = this.credit;
+		return creditClone;
+	}
+	public void addCash(double amount){
+		this.cash += amount;
+	}
+	public void addCredit(int amount){
+		this.credit += amount;
+	}
 	public void displayNotification()
 	{
 		System.out.println("***Notification***");
@@ -234,11 +250,6 @@ public class Driver implements User, RideScheduleScheme
 		return this.currentLocation;
 	}
 
-	// get Payment
-	public Payment getPayment()
-	{
-		return this.payment;
-	}
 
 	// For RIDER to reserve seat
 	public void reserveOneSeatHome(User rider)

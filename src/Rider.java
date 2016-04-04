@@ -10,8 +10,9 @@ import java.util.Scanner;
  */
 public class Rider implements User, RideScheduleScheme 
 {
-	Scanner sc = new Scanner(System.in);
-	private Payment payment;
+	private int credit;
+	private double cash;
+	private Scanner sc = new Scanner(System.in);
 	private ArrayList<String> notification;
 	private Driver driverSchool = null;
 	private Driver driverHome = null;
@@ -35,7 +36,8 @@ public class Rider implements User, RideScheduleScheme
 
 	public Rider(String username, String name, String address, int region, String departFromHome, String departFromSchool) throws ParseException
 	{	
-		this.payment = new Payment();
+		this.cash = 20.0;
+		this.credit = 20;
 		this.notification = new ArrayList<>();
 		this.availableHome = true;
 		this.availableSchool = true;
@@ -48,11 +50,22 @@ public class Rider implements User, RideScheduleScheme
 		this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
 	}
 
-	public Payment getPayment()
-	{
-		return this.payment;
+	public void payDriverCash(Driver driver, int distance){
+		Payment payment = new PayCash(driver, distance);
+		PaymentCaller paymentCaller = new PaymentCaller(payment);
+		paymentCaller.execute();
+		
+		this.cash -= distance * 0.5; // charge rider cash
+		
 	}
 
+	public void payDriverCredit(Driver driver, int distance){
+		Payment payment = new PayCredit(driver, distance);
+		PaymentCaller paymentCaller = new PaymentCaller(payment);
+		paymentCaller.execute();
+		
+		this.credit -= distance * 1; // charge rider credit
+	}
 	// From Home
 	public boolean addRideHome(User user) throws ParseException
 	{
