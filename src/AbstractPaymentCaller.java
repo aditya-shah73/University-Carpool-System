@@ -6,6 +6,7 @@ abstract class AbstractPaymentCaller {
 		this.payment = payment;
 	}
 	public abstract void pay();
+	
 	protected void executePay(){
 		this.payment.pay();
 	}

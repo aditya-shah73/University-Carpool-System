@@ -11,15 +11,15 @@ public class SchemeContext {
 		
 		if (user.getStatus().equals("Driver")) {
 			if (userOption == 1) {
-				rideScheduleScheme.pickUserSchool();
+				rideScheduleScheme.pickUserFromSchool();
 			} else {
-				rideScheduleScheme.pickUserHome();
+				rideScheduleScheme.pickUserFromHome();
 			}
 		} else {
 			if (userOption == 1) {
-				rideScheduleScheme.pickUserSchool();
+				rideScheduleScheme.pickUserFromSchool();
 			} else {
-				rideScheduleScheme.pickUserHome();
+				rideScheduleScheme.pickUserFromHome();
 			}
 		}
 		

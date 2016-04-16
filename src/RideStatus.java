@@ -1,37 +1,36 @@
 
 public class RideStatus implements RideStatusInterface {
-	private RideState rideState;
-
-	@Override
-	public void onTheRoad(Rider rider) {
-		System.out.println(rideState.onTheRoad(rider));
-	}
-
-	@Override
-	public void arrivedToDestination() {
-		System.out.println(rideState.arrivedToDestination());
-	}
-
-	@Override
-	public void setRideState(RideState rideState) {
-		this.rideState = rideState;
-	}
-
-	@Override
-	public RideState getRideState() {
-		return rideState;
-	}
-
-	@Override
-	public boolean isAlreadyOnTheRoad() {
-		return rideState.isAlreadyOnTheRoad();
-	}
-
-	@Override
-	public boolean hasArrived() {
-		return rideState.hasArrived();
-	}
 	
+	private RideState rideState;
+	private int driverLocation;
+
+	public RideStatus(RideState state, int location){
+		this.rideState = state;
+		this.driverLocation = location;
+	}
+	public RideStatus() {
+		this(new DriverNotLeavingYetState(0), 0);
+	}
+	@Override
+	public void setLocation(int location) {
+		this.driverLocation = location;
+	}
+
+	@Override
+	public int getLocation() {
+		return driverLocation;
+	}
+
+	@Override
+	public void setCurrentStatus(RideState status) {
+		this.rideState = status;
+	}
+
+	@Override
+	public RideState getCurrentStatus() {
+		return this.rideState;
+	}
+
 	
 
 }

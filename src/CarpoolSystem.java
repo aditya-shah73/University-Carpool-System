@@ -13,7 +13,7 @@ public class CarpoolSystem
 {
 	public static void main(String[] args) throws ParseException
 	{
-		MainSystem mainSystem = new MainSystem();
+		SystemCaller mainSystem = new SystemCaller();
 		
 		// Initialize
 		mainSystem.driverTable.put("paul01", new Driver("paul01" , "Paul #1", "Paul #1 address", 8, "8:00AM", "2:00PM", 3));
@@ -43,40 +43,44 @@ public class CarpoolSystem
 			int choice = in.nextInt();
 			switch(choice)
 			{
-			case 1:
-			{
-				User newUser = mainSystem.createNewUser();
-				if(newUser != null)
+				case 1:
 				{
-					System.out.printf("\nNew User Created! - %s: %s  %s\n\n", newUser.getStatus(), newUser.getName(), newUser.getAddress());
-				} 
-				else 
-				{
-					System.out.println("\nError with creating new user");
+					User newUser = mainSystem.createNewUser();
+					if(newUser != null)
+					{
+						System.out.printf("\nNew User Created! - %s: %s  %s\n\n", newUser.getStatus(), newUser.getName(), newUser.getAddress());
+					} 
+					else 
+					{
+						System.out.println("\nError with creating new user. Please try again. \n");
+					}
+					break;
 				}
-				break;
-			}
-			case 2:
-			{
-				mainSystem.viewAllUser();
-				break;
-			}
-			case 3:
-			{
-				User user = mainSystem.login();
-				
-				break;
-			}
-			case 4:
-			{
-				System.out.println("Goodbye!!");
-				System.exit(0);
-			}
-			default:
-			{
-				System.out.println("\nInvalid Input, please retry.");
-				break;
-			}
+				case 2:
+				{
+					mainSystem.viewAllUser();
+					break;
+				}
+				case 3:
+				{
+					User user = mainSystem.login();
+					while(user == null){
+						System.out.println("Please login again.");
+						user = mainSystem.login();
+					}
+					break;
+				}
+				case 4:
+				{
+					System.out.println("Goodbye!!");
+					exit = true;
+					System.exit(0);
+				}
+				default:
+				{
+					System.out.println("\nInvalid Input, please retry.");
+					break;
+				}
 			}
 		}
 	}

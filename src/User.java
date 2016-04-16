@@ -6,16 +6,29 @@ import java.text.ParseException;
  */
 public interface User 
 {
+	public double viewCash();
+	public int viewCredit();
+	public void addCash(double amount);
+	public void addCredit(int amount);
+	
 	public void displayNotification();
-	public void displayRideHome();
-	public void displayRideSchool();
-	public boolean addRideHome(User user) throws ParseException;
-	public boolean addRideSchool(User user) throws ParseException;
-	public void notAvailableHome();
-	public boolean isAvailableHome();
-	public void notAvailableSchool();
-	public boolean isAvailableSchool();
-	public String getUsername(); 
+	public void addNotification(String notification);
+	
+	public void displayRideFromHome();
+	public void displayRideFromSchool();
+	
+	public boolean addRideFromHome(User user) throws ParseException;
+	public boolean addRideFromSchool(User user) throws ParseException;
+	/**
+	 * Get Username
+	 * @return String
+	 */
+	public String getUsername();
+	
+	/**
+	 * Get Status
+	 * @return String
+	 */
 	public String getStatus();
 	public String getAddress();
 	public String getName();

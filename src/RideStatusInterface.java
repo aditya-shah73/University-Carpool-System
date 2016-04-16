@@ -1,10 +1,9 @@
 
 public interface RideStatusInterface {
 
-	public void onTheRoad(Rider rider);
-	public void arrivedToDestination();
-	public void setRideState(RideState rideState);
-	public RideState getRideState();
-	public boolean isAlreadyOnTheRoad();
-	public boolean hasArrived();
+	public void setLocation(int location);
+	public int getLocation();
+	public void setCurrentStatus(RideState status);
+	public RideState getCurrentStatus();
+	
 }
