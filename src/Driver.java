@@ -8,7 +8,7 @@ import java.util.Scanner;
  * A class for the driver who is a user of the system
  * @author Group 8 
  */
-public class Driver implements User, RideScheduleScheme
+public class Driver implements User
 {
 	private Scanner sc = new Scanner(System.in);
 	private ArrayList<String> notification;
@@ -383,6 +383,10 @@ public class Driver implements User, RideScheduleScheme
 	{
 		this.addRideFromSchool(rider);
 	}
-	
-	
+
+	@Override
+	public void observersNotify(String message) {
+		System.out.println(message);
+		
+	}
 }

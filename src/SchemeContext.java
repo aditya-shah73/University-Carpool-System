@@ -3,26 +3,24 @@ import java.text.ParseException;
 public class SchemeContext {
 	public RideScheduleScheme rideScheduleScheme;
 	
-	public SchemeContext(RideScheduleScheme rideScheduleScheme) {
-		this.rideScheduleScheme = rideScheduleScheme;
+	public SchemeContext() {
 	}
 	
-	public void executeScheme(User user, int userOption) throws ParseException {
+	public void getScheme(User user, int userOption) throws ParseException {
 		
 		if (user.getStatus().equals("Driver")) {
-			if (userOption == 1) {
-				rideScheduleScheme.pickUserFromSchool();
-			} else {
-				rideScheduleScheme.pickUserFromHome();
-			}
+			rideScheduleScheme = new DriverPickStrategy();
 		} else {
-			if (userOption == 1) {
-				rideScheduleScheme.pickUserFromSchool();
-			} else {
-				rideScheduleScheme.pickUserFromHome();
-			}
+			rideScheduleScheme = new RiderPickStrategy();
 		}
-		
+	}
+	public void executeScheme(User user, int userOption) throws ParseException {
+		getScheme(user, userOption);
+		if (userOption == 1) {
+			rideScheduleScheme.pickUserFromSchool(user);
+		} else {
+			rideScheduleScheme.pickUserFromHome(user);
+		}
 	}
 
 }

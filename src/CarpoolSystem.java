@@ -14,20 +14,49 @@ public class CarpoolSystem
 	public static void main(String[] args) throws ParseException
 	{
 		SystemCaller mainSystem = new SystemCaller();
-		
+		ObserverRideScheme observerRideScehme = new ObserverRideScheme();
+
 		// Initialize
-		mainSystem.driverTable.put("paul01", new Driver("paul01" , "Paul #1", "Paul #1 address", 8, "8:00AM", "2:00PM", 3));
-		mainSystem.driverTable.put("paul02", new Driver("paul02" , "Paul #2", "Paul #2 address", 6, "9:00AM", "3:00PM", 3));
-		mainSystem.driverTable.put("paul03", new Driver("paul03" , "Paul #3", "Paul #3 address", 4, "10:00AM", "4:00PM", 3));
-		mainSystem.driverTable.put("paul04", new Driver("paul04" , "Paul #4", "Paul #4 address", 3, "11:00AM", "5:00PM", 3));
-		mainSystem.driverTable.put("paul05", new Driver("paul05" , "Paul #5", "Paul #5 address", 7, "8:00AM", "4:00PM", 3));
-		
-		mainSystem.riderTable.put("rav01" , new Rider("rav01" , "Ravuth #1", "Ravuth #1 Address", 2, "8:00AM", "2:00PM"));
-		mainSystem.riderTable.put("rav02" , new Rider("rav02" , "Ravuth #2", "Ravuth #2 Address", 3, "9:00AM", "3:00PM"));
-		mainSystem.riderTable.put("rav03" , new Rider("rav03" , "Ravuth #3", "Ravuth #3 Address", 4, "10:00AM", "4:00PM"));
-		mainSystem.riderTable.put("rav04" , new Rider("rav04" , "Ravuth #4", "Ravuth #4 Address", 5, "11:00AM", "5:00PM"));
-		mainSystem.riderTable.put("rav05" , new Rider("rav05" , "Ravuth #5", "Ravuth #5 Address", 6, "8:00AM", "4:00PM"));
-		
+		Driver driver1 = new Driver("paul01" , "Paul #1", "Paul #1 address", 8, "8:00AM", "2:00PM", 3);
+		mainSystem.driverTable.put("paul01", driver1);
+		observerRideScehme.addObserver(driver1);
+
+		Driver driver2 = new Driver("paul02" , "Paul #2", "Paul #2 address", 6, "9:00AM", "3:00PM", 3);
+		mainSystem.driverTable.put("paul02", driver2);
+		observerRideScehme.addObserver(driver2);
+
+		Driver driver3 = new Driver("paul03" , "Paul #3", "Paul #3 address", 4, "10:00AM", "4:00PM", 3);
+		mainSystem.driverTable.put("paul03", driver3);
+		observerRideScehme.addObserver(driver3);
+
+		Driver driver4 = new Driver("paul04" , "Paul #4", "Paul #4 address", 3, "11:00AM", "5:00PM", 3);
+		mainSystem.driverTable.put("paul04", driver4);
+		observerRideScehme.addObserver(driver4);
+
+		Driver driver5 = new Driver("paul05" , "Paul #5", "Paul #5 address", 7, "8:00AM", "4:00PM", 3);
+		mainSystem.driverTable.put("paul05", driver5);
+		observerRideScehme.addObserver(driver5);
+
+		Rider rider1 = new Rider("rav01" , "Ravuth #1", "Ravuth #1 Address", 2, "8:00AM", "2:00PM");
+		mainSystem.riderTable.put("rav01" , rider1);
+		observerRideScehme.addObserver(rider1);
+				
+		Rider rider2 = new Rider("rav02" , "Ravuth #2", "Ravuth #2 Address", 3, "9:00AM", "3:00PM");			
+		mainSystem.riderTable.put("rav02" , rider2);
+		observerRideScehme.addObserver(rider2);
+				
+		Rider rider3 = new Rider("rav03" , "Ravuth #3", "Ravuth #3 Address", 4, "10:00AM", "4:00PM");
+		mainSystem.riderTable.put("rav03" , rider3);
+		observerRideScehme.addObserver(rider3);
+
+		Rider rider4 = new Rider("rav04" , "Ravuth #4", "Ravuth #4 Address", 5, "11:00AM", "5:00PM");
+		mainSystem.riderTable.put("rav04" , rider4);
+		observerRideScehme.addObserver(rider4);
+				
+		Rider rider5 = new Rider("rav05" , "Ravuth #5", "Ravuth #5 Address", 6, "8:00AM", "4:00PM");
+		mainSystem.riderTable.put("rav05" , rider5);
+		observerRideScehme.addObserver(rider5);
+				
 		Scanner in = new Scanner(System.in);
 		boolean exit = false;
 		while(exit == false)

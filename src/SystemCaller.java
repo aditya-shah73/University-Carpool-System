@@ -72,17 +72,17 @@ public class SystemCaller
 			displayDriverCarpoolMenu();
 			choice = sc.nextInt();
 			Driver driver = (Driver) user;
-			SchemeContext schemeContext = new SchemeContext(driver);
+			SchemeContext schemeContext = new SchemeContext();
 			switch(choice)
 			{
 				case 1:
 				{
-					schemeContext.executeScheme(driver, choice);				
+					schemeContext.executeScheme(user, choice);				
 					break;
 				}
 				case 2:
 				{
-					schemeContext.executeScheme(driver, choice);
+					schemeContext.executeScheme(user, choice);
 					break;
 				}
 				case 3:
@@ -294,7 +294,7 @@ public class SystemCaller
 				case 1:
 				{
 					if(rider.getDriverFromSchool() == null){
-						schemeContext = new SchemeContext(rider);
+						schemeContext = new SchemeContext();
 						schemeContext.executeScheme(rider, choice);
 					}
 					else
@@ -304,7 +304,7 @@ public class SystemCaller
 				case 2:
 				{
 					if(rider.getDriverFromHome() == null){
-						schemeContext = new SchemeContext(rider);
+						schemeContext = new SchemeContext();
 						schemeContext.executeScheme(rider, choice);
 					}
 					else
@@ -451,6 +451,7 @@ public class SystemCaller
 		{
 			User newRider = new Rider(username, fullname, address, region, departFromHome, departFromSchool);
 			this.riderTable.put(username, newRider);
+			ObserverRideScheme.userArrayList.add(newRider);
 			returnedUser = newRider;
 			break;
 		}
@@ -458,6 +459,7 @@ public class SystemCaller
 		{
 			User newDriver = new Driver(username,fullname, address, region, departFromHome, departFromSchool, seat);
 			this.driverTable.put(username, newDriver);
+			ObserverRideScheme.userArrayList.add(newDriver);
 			returnedUser = newDriver;
 			break;
 		}

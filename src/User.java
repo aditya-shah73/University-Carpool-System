@@ -6,6 +6,7 @@ import java.text.ParseException;
  */
 public interface User 
 {
+	public void observersNotify(String message);
 	public double viewCash();
 	public int viewCredit();
 	public void addCash(double amount);
