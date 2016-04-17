@@ -17,6 +17,7 @@ public class SystemCaller
 	Scanner sc = new Scanner(System.in);
 	public static HashMap<String, User> riderTable = new HashMap<>(); // table of Rider
 	public static HashMap<String, User> driverTable = new HashMap<>(); // table of Driver
+	public static Garage parkingGarage = new Garage();
 	public SimpleDateFormat format = new SimpleDateFormat("hh:mm");
 	private User returnedUser;
 	/*
@@ -25,7 +26,7 @@ public class SystemCaller
 	
 	public SystemCaller() throws ParseException
 	{
-
+		
 	}
 
 	/** 
@@ -40,7 +41,8 @@ public class SystemCaller
 				"* 3. Display scheduled rides   *\n" +
 				"* 4. Get Route                 *\n" +
 				"* 5. Update driver status      *\n" +
-				"* 6. Logout                    *\n" + 
+				"* 6. Manage Parking	       *\n" +
+				"* 7. Logout                    *\n" + 
 				"*******************************"); 
 		System.out.print("Please enter your choice:");
 	}
@@ -60,6 +62,23 @@ public class SystemCaller
 				"*******************************"); 
 		System.out.print("Please enter your choice:");
 	}
+	
+	/** 
+	 * Display Parking Menu for driver
+	 */
+	private void displayDriverParkingMenu()
+	{
+		System.out.println("********************************\n" +
+				"*       PARKING MENU           *\n" +
+				"* 1. Find Parking              *\n" +
+				"* 2. Exit Parking              *\n" +
+				"* 3. View Garage               *\n" +
+				"* 4. Exit                      *\n" +
+				"*******************************"); 
+		System.out.print("Please enter your choice:");
+	}
+	
+	
 	/**
 	 * Display Driver Carpool Menu
 	 * @param user
@@ -68,6 +87,7 @@ public class SystemCaller
 	private void driverCarpoolMenu(User user) throws ParseException{
 		int choice;
 		user.displayNotification();
+		Scanner userInput = new Scanner(System.in);
 		do {
 			displayDriverCarpoolMenu();
 			choice = sc.nextInt();
@@ -103,7 +123,77 @@ public class SystemCaller
 				}
 				case 6:
 				{
-					choice = 6;
+					driverParkingMenu(driver);
+					break;
+				}
+				case 7:
+					break;
+				default:
+				{
+					System.out.println("Invalid Input. Please try again.");
+					System.out.print("Please enter your choice: ");
+					choice = sc.nextInt();
+					break;
+				}
+			}
+		} 
+		while (choice != 7);
+	}
+	
+	
+	/**
+	 * Display Driver Parking Menu
+	 * @param user
+	 */
+	private void driverParkingMenu(User user) {
+		int choice;
+		Scanner userInput = new Scanner(System.in);
+		do {
+			displayDriverParkingMenu();
+			choice = sc.nextInt();
+			Driver driver = (Driver) user;
+			switch(choice)
+			{
+				case 1:
+				{
+					if (driver.getParkingSpot() == null) {
+						ArrayList<ParkingSpot> theEmptyOnes = parkingGarage.getAllEmpty();
+					
+						System.out.println("Empty Parking Spots: ");
+						for(int i = 0; i < theEmptyOnes.size(); i = i+1){
+							System.out.println(theEmptyOnes.get(i).getParkingNumber());
+						}
+						System.out.print("Select a parking spot: ");
+						String chosenParking = userInput.nextLine();
+						parkingGarage.selectParking(chosenParking, driver);
+						driver.setParkingSpot(chosenParking);
+					} else {
+						System.out.println("You have already parked.");
+					}
+									
+					break;
+				}
+				case 2:
+				{
+					// If user did park, allow them to exit parking spot
+					if (driver.getParkingSpot() != null) {
+						// Open up the spot 
+						driver.setParkingSpot(null);
+						parkingGarage.openParking(driver);
+					} else {
+						// Otherwise they didn't park so they cannot free up a parking spot
+						System.out.println("You are currently not parking...");
+					}
+					break;
+				}
+				case 3:
+				{
+					parkingGarage.displayGarage();
+					break;
+				}
+				case 4:
+				{
+					choice = 4;
 					break;
 				}
 				default:
@@ -115,16 +205,16 @@ public class SystemCaller
 				}
 			}
 		} 
-		while (choice != 6);
+		while (choice != 4);
 	}
 
 	/**
 	 * Update Driver Current Location
 	 */
 	private void updateDriverState(Driver driver){
-		System.out.println("1. On the way.");
-		System.out.println("2. Arrived at the destination.");
-		System.out.println("3. Will be leaving soon.");
+		System.out.println("1. Will be leaving soon.");
+		System.out.println("2. On the way.");
+		System.out.println("3. Arrived at the destination.");
 		System.out.println("4. Update current location");
 		System.out.println("5. Back to previous menu.");
 		System.out.println("Please enter your current location: ");
@@ -137,28 +227,28 @@ public class SystemCaller
 				{
 					System.out.print("Current Location: ");
 					driver.setCurrentLocation(sc.nextInt());
-					RideState rideState = new DriverOnTheWayState(driver.getCurrentLocation());
-					driver.setStatus(rideState);
+					driver.setStatus(new DriverNotLeavingYetState(driver.getCurrentLocation()));
 					choice = 5;
-
+					driver.displayStatus();
 					break;
 				}
 				case 2:
 				{
 					System.out.print("Current Location: ");
 					driver.setCurrentLocation(sc.nextInt());
-					driver.setStatus(new DriverArrivedDestinationState(driver.getCurrentLocation()));
+					RideState rideState = new DriverOnTheWayState(driver.getCurrentLocation());
+					driver.setStatus(rideState);
 					choice = 5;
-
+					driver.displayStatus();
 					break;
 				}
 				case 3:
 				{
 					System.out.print("Current Location: ");
 					driver.setCurrentLocation(sc.nextInt());
-					driver.setStatus(new DriverNotLeavingYetState(driver.getCurrentLocation()));
+					driver.setStatus(new DriverArrivedDestinationState(driver.getCurrentLocation()));
 					choice = 5;
-
+					driver.displayStatus();
 					break;
 				}
 				case 4:
@@ -166,6 +256,7 @@ public class SystemCaller
 					System.out.print("Current Location: ");
 					driver.setCurrentLocation(sc.nextInt());
 					choice = 5;
+					driver.displayStatus();
 					break;
 				}
 			

@@ -56,6 +56,9 @@ public class CarpoolSystem
 		Rider rider5 = new Rider("rav05" , "Ravuth #5", "Ravuth #5 Address", 6, "8:00AM", "4:00PM");
 		mainSystem.riderTable.put("rav05" , rider5);
 		observerRideScehme.addObserver(rider5);
+		
+		mainSystem.parkingGarage.generateParkingSpot();
+		mainSystem.parkingGarage.generateGarage();
 				
 		Scanner in = new Scanner(System.in);
 		boolean exit = false;

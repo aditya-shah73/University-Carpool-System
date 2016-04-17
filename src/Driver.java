@@ -29,6 +29,7 @@ public class Driver implements User
 	private int emptySeatFromHome;
 	private String departFromHome;
 	private String departFromSchool;
+	private String parkingSpot;
 	
 	RideStatusInterface rideStatus = new RideStatus();
 	SimpleDateFormat format = new SimpleDateFormat("hh:mm");
@@ -383,6 +384,15 @@ public class Driver implements User
 	{
 		this.addRideFromSchool(rider);
 	}
+	
+	public void setParkingSpot(String parkingSpot) {
+		this.parkingSpot = parkingSpot;
+	}
+	
+	public String getParkingSpot() {
+		return this.parkingSpot;
+	}
+	
 
 	@Override
 	public void observersNotify(String message) {
