@@ -52,7 +52,7 @@ public class Garage {
 			Map.Entry m = (Map.Entry) iterator.next();
 			ParkingSpot spot = (ParkingSpot) m.getKey();
 			if (spot.getParkingNumber().equals(parkingSpot)){
-				map.replace(spot, true);
+				map.put(spot, true);
 				spot.setDriver(driver);
 				System.out.println("You are now parking at parking spot: " + parkingSpot);
 			}
@@ -70,7 +70,7 @@ public class Garage {
 			ParkingSpot spot = (ParkingSpot) m.getKey();
 			if (spot.getDriver() != null) {
 				if (spot.getDriver().equals(driver)){
-					map.replace(spot, false);
+					map.put(spot, false);
 					spot.setDriver(null);
 					System.out.println("You are no longer parking at the current spot");
 

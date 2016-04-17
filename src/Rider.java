@@ -240,6 +240,9 @@ public class Rider implements User
 	 */
 	public void pickUserFromHome() throws ParseException 
 	{
+		TemplateRideSchedule pickFromHome = new PickDriverFromSchool(SystemCaller.riderTable, this);
+		pickFromHome.pickUser();
+		/*
 		for(Map.Entry<String, User> entry : SystemCaller.driverTable.entrySet())
 		{
 			User theUser = entry.getValue();
@@ -272,7 +275,7 @@ public class Rider implements User
 		{
 			System.out.println("This driver isn't available. Please choose again.\n");
 		}
-		
+		*/
 	}
 
 	/**
@@ -280,6 +283,9 @@ public class Rider implements User
 	 */
 	public void pickUserFromSchool()throws ParseException
 	{	
+		TemplateRideSchedule pickFromSchool = new PickDriverFromSchool(SystemCaller.riderTable, this);
+		pickFromSchool.pickUser();
+		/*
 		for(Map.Entry<String, User> entry : SystemCaller.driverTable.entrySet())
 		{
 			User theUser = entry.getValue();
@@ -314,7 +320,7 @@ public class Rider implements User
 			System.out.println("This driver isn't available. Please choose again.\n");
 		}
 		
-
+		*/
 	}
 	
 	public Driver getDriverFromHome(){

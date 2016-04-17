@@ -20,7 +20,7 @@ public class ObserverRideScheme {
 		
 		while (observerIterator.hasNext()) {
 			User user = (User) observerIterator.next();
-			user.observersNotify("NOTIFY USER " + user.getUsername() + " " + message);
+			// user.observersNotify("NOTIFY USER " + user.getUsername() + " " + message);
 		}
 		
 	}
