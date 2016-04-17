@@ -72,6 +72,8 @@ public class Garage {
 				if (spot.getDriver().equals(driver)){
 					map.replace(spot, false);
 					spot.setDriver(null);
+					System.out.println("You are no longer parking at the current spot");
+
 				}
 			}
 		}
