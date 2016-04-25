@@ -10,5 +10,6 @@ public class PayCreditConcrete implements Payment{
 	
 	public void pay(){
 		this.driver.addCredit(distance * 1);
+		System.out.println("You have successfully paid: $" + (distance * 1));
 	}
 }

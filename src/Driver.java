@@ -90,7 +90,7 @@ public class Driver implements User
 	 * Add cash to account
 	 * @param amount double
 	 */
-	public void addCash(double amount){
+	public void addCash(int amount){
 		this.cash += amount;
 	}
 	
@@ -251,99 +251,7 @@ public class Driver implements User
 	{
 		return this.memberSchedule;
 	}
-	// Setter and getter end here
 
-
-	// THIS DRIVER choose RIDER to pick up from HOME
-	public void pickUserFromHome() throws ParseException 
-	{
-		TemplateRideSchedule pickFromHome = new PickRiderFromHome(SystemCaller.riderTable, this);
-		pickFromHome.pickUser();
-		/*
-		// System suggestion
-		for(Map.Entry<String, User> entry : SystemCaller.riderTable.entrySet())
-		{
-			User theUser = entry.getValue();
-			if(theUser.getMemberSchedule().isAvailableHome()){
-				if(this.getRegion() - theUser.getRegion() >= 0)
-				{
-					if(this.getMemberSchedule().getHomeTime().equals(theUser.getMemberSchedule().getHomeTime()))
-					{
-						System.out.println("You may pick up: " + theUser.getName() + 
-								" at " + format.format(this.getMemberSchedule().getHomeTime()) +
-								" \t[Username]: " + theUser.getUsername());
-					}
-				}
-			}
-		}
-
-		// Driver choose
-		System.out.print("\nEnter the username you want to pickup or enter [0] to exit: ");
-
-		String usernameChoice = sc.nextLine();
-		
-		Rider rider = (Rider) SystemCaller.riderTable.get(usernameChoice);
-		if(rider != null && rider.getMemberSchedule().isAvailableHome())
-		{
-			rider.getMemberSchedule().setNotAvailableHome();
-			this.addRideFromHome(SystemCaller.riderTable.get(usernameChoice));
-			rider.addRideFromHome(this);
-			System.out.println("\nDone !!! You will drive home with: " + rider.getName());
-		}
-		else
-		{
-			System.out.println("This rider isn't available. Please choose again.\n");
-		}
-		*/
-		
-	}
-
-	// THIS DRIVER choose RIDER to pick up from SCHOOL
-	public void pickUserFromSchool() throws ParseException 
-	{
-		TemplateRideSchedule pickFromSchool = new PickRiderFromSchool(SystemCaller.riderTable, this);
-		pickFromSchool.pickUser();
-		
-		/*
-		for(Map.Entry<String, User> entry : SystemCaller.riderTable.entrySet())
-		{
-			User theUser = entry.getValue();
-			if(theUser.getMemberSchedule().isAvailableSchool())
-			{
-				if(this.getRegion() - theUser.getRegion() >= 0)
-				{
-					if(this.getMemberSchedule().getSchoolTime().equals(theUser.getMemberSchedule().getSchoolTime()))
-					{
-						System.out.println("You may pick up: " + theUser.getName() + 
-								" at " + format.format(this.getMemberSchedule().getSchoolTime()) +
-								" \t[Username]: " + theUser.getUsername());
-					}
-				}
-			}
-		}
-
-		System.out.print("Enter the username you want to pickup or enter [0] to exit: ");
-		String usernameChoice = sc.nextLine();
-		
-		Rider rider = (Rider) SystemCaller.riderTable.get(usernameChoice);
-		if((rider != null) && (rider.getMemberSchedule().isAvailableSchool()))
-		{
-			rider.getMemberSchedule().setNotAvailableSchool();
-			this.addRideFromSchool(rider); // add RIDER to this DRIVER
-			rider.addRideFromSchool(this); // add THIS DRIVER to rider.
-			System.out.println("\nDone !!! You will drive to school with: " + rider.getName());
-		} 
-			
-		else
-		{
-			System.out.println("This rider isn't available. Please choose again.\n");
-		}
-			
-		*/	
-		
-	}	
-	
-	
 	// Return array list of rider Driver have to pick up, by order 
 	public ArrayList<User> getRouteFromHome()
 	{

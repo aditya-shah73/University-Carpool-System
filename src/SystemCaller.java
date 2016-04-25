@@ -58,8 +58,9 @@ public class SystemCaller
 				"* 2. Carpool from Home         *\n" +
 				"* 3. Display scheduled rides   *\n" +
 				"* 4. Check Driver status       *\n" +
-				"* 5. Logout                    *\n" + 
-				"*******************************"); 
+				"* 5. Pay Driver                *\n" +
+				"* 6. Logout                    *\n" + 
+				"********************************"); 
 		System.out.print("Please enter your choice:");
 	}
 	
@@ -75,6 +76,19 @@ public class SystemCaller
 				"* 3. View Garage               *\n" +
 				"* 4. Exit                      *\n" +
 				"*******************************"); 
+		System.out.print("Please enter your choice:");
+	}
+	
+	/**
+	 *  Display payment menu (rider's interface)
+	 */
+	private void displayRiderPaymentMenu() {
+		System.out.println("********************************\n" +
+				"*       PAYMENT MENU           *\n" +
+				"* 1. Pay By Cash               *\n" +
+				"* 2. Pay By Credit             *\n" +
+				"* 3. Exit                      *\n" +
+				"********************************"); 
 		System.out.print("Please enter your choice:");
 	}
 	
@@ -332,42 +346,49 @@ public class SystemCaller
 	 */
 	private void checkDriverStatus(Rider rider){
 		Rider theRider = rider;
+		int choice;
 		
-		System.out.println("1. Check driver status that will pick you up from SJSU.");
-		System.out.println("2. Check driver status that will pick you up from Home.");
-		System.out.println("3. Back to the previous menu.");
-		System.out.print("Please enter your choice: ");
-		
-		int choice = sc.nextInt();
-		
-		while(choice != 3){
+		do {
+			System.out.println("1. Check driver status that will pick you up from SJSU.");
+			System.out.println("2. Check driver status that will pick you up from Home.");
+			System.out.println("3. Back to the previous menu.");
+			System.out.print("Please enter your choice: ");
+			
+			choice = sc.nextInt();
+			
 			switch(choice){
 				case 1:
 				{
-					rider.getDriverFromSchool().displayStatus();
-					choice = 3;
+					if (rider.getDriverFromSchool() != null) {
+						rider.getDriverFromSchool().displayStatus();
+					} else {
+						System.out.println("No driver from SJSU...");
+						System.out.println();
+					}
 					break;
 				}
 				case 2:
 				{
-					rider.getDriverFromHome().displayStatus();
-					choice = 3;
+					if (rider.getDriverFromHome() != null) {
+						rider.getDriverFromHome().displayStatus();
+					} else {
+						System.out.println("No driver from Home...");
+						System.out.println();
+					}
 					break;
 				}
 				case 3:
 				{
-					choice = 3;
 					break;
 				}
 				default:
 				{
 					System.out.println("Wrong input. Please enter again.");
 					System.out.print("Please enter your choice: ");
-					choice = sc.nextInt();
 					break;
 				}
 			}
-		}
+		} while (choice != 3);
 		
 	}
 	private void riderCarpoolMenu(User user) throws ParseException
@@ -416,20 +437,45 @@ public class SystemCaller
 				}
 				case 5:
 				{
-					choice = 5;
+					riderPaymentMenu(rider);
 					break;
 				}
 				default:
 				{
 					System.out.println("Invalid Input. Please try again.");
-					System.out.print("Please enter your choice: ");
-					choice = sc.nextInt();
 					break;
 				}
 			}
 		} 
-		while (choice != 5);
+		while (choice != 6);
 	}
+	
+	private void riderPaymentMenu(Rider rider) {
+		int choice;
+		int distance;
+		
+		do {
+			displayRiderPaymentMenu();
+			choice = sc.nextInt();
+			
+			switch (choice) 
+			{
+				case 1:
+					rider.payDriverCash();
+					break;
+				case 2:
+					rider.payDriverCredit();
+					break;
+				case 3:
+					System.out.println();
+					break;
+				default:
+					System.out.println("Wrong input. Try again: ");
+			}
+
+		} while (choice != 3);
+	}
+	
 
 	/**
 	 * Login function

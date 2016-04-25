@@ -9,7 +9,7 @@ public interface User
 	public void observersNotify(String message);
 	public double viewCash();
 	public int viewCredit();
-	public void addCash(double amount);
+	public void addCash(int amount);
 	public void addCredit(int amount);
 	
 	public void displayNotification();

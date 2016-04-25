@@ -74,7 +74,7 @@ public class Rider implements User
 	 * Add cash to account
 	 * @param amount double
 	 */
-	public void addCash(double amount){
+	public void addCash(int amount){
 		this.cash += amount;
 	}
 	
@@ -91,13 +91,56 @@ public class Rider implements User
 	 * @param driver
 	 * @param distance
 	 */
-	public void payDriverCash(Driver driver, int distance){
-		Payment payment = new PayCashConcrete(driver, distance);
-		AbstractPaymentCaller paymentCaller = new PaymentCaller(payment);
-		paymentCaller.executePay();
+	public void payDriverCash(){
 		
-		this.cash -= distance * 0.5; // charge rider cash
+		Driver driver = null;
+		int distance;
 		
+		if(this.driverFromHome!=null)
+		{
+			System.out.println("Driver from home: " + this.driverFromHome.getUsername()); 
+		} 
+		else
+		{
+			System.out.println("No ride from home available");
+		}
+		if (this.driverFromSchool != null)
+		{
+			System.out.println("Driver from school: " + this.driverFromSchool.getUsername());
+		} 
+		else
+		{
+			System.out.println("No ride from school available");
+		}
+		System.out.println();
+		
+		
+		if (this.driverFromHome!= null || this.driverFromSchool != null) {
+
+			System.out.print("Enter the username of driver you want to pay: ");
+			String usernameChoice = sc.next();
+			// Check available
+			if(this.driverFromHome != null && usernameChoice.equals(this.driverFromHome.getUsername()))
+			{
+				driver = (Driver) driverFromHome;
+				this.driverFromHome = null;
+			} else if (this.driverFromSchool != null && usernameChoice.equals(this.driverFromSchool.getUsername())) {
+				driver = (Driver) driverFromSchool;
+				this.driverFromSchool = null;
+			}
+			else
+			{
+				System.out.println("This driver isn't available.");
+			}
+		
+			System.out.print("Enter the total distance in integer format: ");
+			distance = sc.nextInt();
+		
+			Payment payment = new PayCashConcrete((Driver) driver, distance);
+			AbstractPaymentCaller paymentCaller = new PaymentCaller(payment);
+			paymentCaller.executePay();
+			this.cash -= distance * 0.5; // charge rider cash
+		}
 	}
 
 	/**
@@ -105,12 +148,55 @@ public class Rider implements User
 	 * @param driver
 	 * @param distance
 	 */
-	public void payDriverCredit(Driver driver, int distance){
+	public void payDriverCredit(){
+		Driver driver = null;
+		int distance;
+		
+		if(this.driverFromHome!=null)
+		{
+			System.out.println("Driver from home: " + this.driverFromHome.getUsername()); 
+		} 
+		else
+		{
+			System.out.println("No ride from home available");
+		}
+		if (this.driverFromSchool != null)
+		{
+			System.out.println("Driver from school: " + this.driverFromSchool.getUsername());
+		} 
+		else
+		{
+			System.out.println("No ride from school available");
+		}
+		System.out.println();
+		
+		if (this.driverFromHome !=null || this.driverFromSchool != null) {
+
+		System.out.print("Enter the username of driver you want to pay: ");
+		String usernameChoice = sc.next();
+		// Check available
+		if(this.driverFromHome != null && usernameChoice.equals(this.driverFromHome.getUsername()))
+		{
+			driver = (Driver) driverFromHome;
+			this.driverFromHome = null;
+
+		} else if (this.driverFromSchool != null && usernameChoice.equals(this.driverFromSchool.getUsername())) {
+			driver = (Driver) driverFromSchool;
+			this.driverFromSchool = null;
+		}
+		else
+		{
+			System.out.print("This driver isn't available.");
+		}
+		
+		System.out.println("Enter the total distance in integer format: ");
+		distance = sc.nextInt();
+		
 		Payment payment = new PayCreditConcrete(driver, distance);
 		AbstractPaymentCaller paymentCaller = new PaymentCaller(payment);
 		paymentCaller.executePay();
-		
 		this.credit -= distance * 1; // charge rider credit
+		}
 	}
 	
 	
@@ -134,7 +220,9 @@ public class Rider implements User
 	{
 		this.notification.add(message);
 	}
-
+	
+	
+	
 	/**
 	 * Display Driver that will pickup this rider From Home
 	 */
@@ -165,8 +253,7 @@ public class Rider implements User
 		else
 		{
 			System.out.println("No ride from school available");
-		}
-		System.out.println();
+		}	
 	}
 
 	/**
@@ -234,94 +321,6 @@ public class Rider implements User
 		return this.memberSchedule;
 	}
 	// Setter and getter end here
-	
-	/**
-	 * Chose Driver to Pick up THIS rider from home
-	 */
-	public void pickUserFromHome() throws ParseException 
-	{
-		TemplateRideSchedule pickFromHome = new PickDriverFromSchool(SystemCaller.riderTable, this);
-		pickFromHome.pickUser();
-		/*
-		for(Map.Entry<String, User> entry : SystemCaller.driverTable.entrySet())
-		{
-			User theUser = entry.getValue();
-			if(theUser.getMemberSchedule().isAvailableHome())
-			{
-				if(theUser.getRegion() - this.getRegion() >= 0)
-				{
-					if(this.getMemberSchedule().getHomeTime().equals(theUser.getMemberSchedule().getHomeTime()))
-					{
-						System.out.println("You may carpool with: " + theUser.getName() 
-						+ " at " + format.format(this.getMemberSchedule().getHomeTime())
-						+ " \t[Username]: " + theUser.getUsername() );
-					}
-				}
-			}
-		}
-		System.out.print("Enter the username of driver you want to carpool with, [0] to exit: ");
-		String usernameChoice = sc.nextLine();
-		
-		Driver driver = (Driver) SystemCaller.driverTable.get(usernameChoice);
-		// Check available
-		if((driver != null) && (driver.getMemberSchedule().isAvailableHome()))
-		{
-			this.addRideFromHome(driver); // Add driver to pickup THIS rider
-			driver.reserveOneSeatHome(this); // reserve one seat from Home
-
-			System.out.println("\nDone !!! You will be picked up by: " + driver.getName());
-		}
-		else
-		{
-			System.out.println("This driver isn't available. Please choose again.\n");
-		}
-		*/
-	}
-
-	/**
-	 * Chose Driver to Pick up THIS rider FROM school
-	 */
-	public void pickUserFromSchool()throws ParseException
-	{	
-		TemplateRideSchedule pickFromSchool = new PickDriverFromSchool(SystemCaller.riderTable, this);
-		pickFromSchool.pickUser();
-		/*
-		for(Map.Entry<String, User> entry : SystemCaller.driverTable.entrySet())
-		{
-			User theUser = entry.getValue();
-			if(theUser.getMemberSchedule().isAvailableSchool())
-			{
-				if(theUser.getRegion() - this.getRegion() >= 0)
-				{
-					if(this.getMemberSchedule().getSchoolTime().equals(theUser.getMemberSchedule().getSchoolTime()))
-					{
-						System.out.println("You may carpool with: " + theUser.getName() 
-						+ " at " + format.format(this.getMemberSchedule().getSchoolTime())
-						+ " \t[Username]: " + theUser.getUsername() );
-					}
-				}
-			}
-		}
-		System.out.print("Enter the username of driver you want to carpool with, [0] to exit: ");
-		String usernameChoice = sc.nextLine();
-		
-		Driver driver = (Driver) SystemCaller.driverTable.get(usernameChoice);
-		// Check available
-		if((driver != null) && (driver.getMemberSchedule().isAvailableSchool()))
-		{
-			this.addRideFromHome(driver); // Add driver to pickup THIS rider
-			driver.reserveOneSeatHome(this); // reserve one seat from Home
-			
-			System.out.println("\nDone !!! You will be picked up by: " + driver.getName());
-		} 
-			
-		else
-		{
-			System.out.println("This driver isn't available. Please choose again.\n");
-		}
-		
-		*/
-	}
 	
 	public Driver getDriverFromHome(){
 		return (Driver) this.driverFromHome;
