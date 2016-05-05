@@ -109,8 +109,8 @@ public class SystemCaller
 		System.out.print("Please enter your choice:");
 		choice = sc.nextInt( );
 		if(choice != 8){
-			u.displayRideFromHome(choice);
-			u.displayRideFromSchool(choice);
+			u.displayRideFromHome(choice-1);
+			u.displayRideFromSchool(choice-1);
 		}
 		
 	}
@@ -132,7 +132,7 @@ public class SystemCaller
 		System.out.print("Please enter your choice:");
 		date = sc.nextInt( );
 		if(date != 8){
-			scheme.executeScheme(date - 1, u, choice);	
+			scheme.executeScheme(date , u, choice);	
 		}
 	}
 	/**
