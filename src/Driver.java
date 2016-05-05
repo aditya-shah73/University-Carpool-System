@@ -17,7 +17,7 @@ public class Driver implements User
 	private double cash;
 	
 	private int currentLocation;
-	private MemberSchedule memberSchedule;
+	private ArrayList<MemberSchedule> memberSchedule;
 	private ArrayList<User> riderListFromSchool;
 	private ArrayList<User> riderListFromHome;
 	
@@ -27,8 +27,8 @@ public class Driver implements User
 	private int region;
 	private int emptySeatFromSchool;
 	private int emptySeatFromHome;
-	private String departFromHome;
-	private String departFromSchool;
+	private ArrayList<String> departFromHome;
+	private ArrayList<String> departFromSchool;
 	private String parkingSpot;
 	
 	RideStatusInterface rideStatus = new RideStatus();
@@ -44,7 +44,7 @@ public class Driver implements User
 	 * @param seat
 	 * @throws ParseException
 	 */
-	public Driver(String username, String name, String address, int region, String departFromHome, String departFromSchool, int seat) throws ParseException
+	public Driver(String username, String name, String address, int region, ArrayList<String> departFromHome, ArrayList<String> departFromSchool, int seat) throws ParseException
 	{	
 		// Initialize account payment credit/cash value
 		this.credit = 20;
@@ -63,7 +63,10 @@ public class Driver implements User
 		this.departFromHome = departFromHome;
 		this.departFromSchool = departFromSchool;
 		// Initialize MemberSchedule 
-		this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
+		this.memberSchedule  = new ArrayList<>();
+		for(int i=0; i<7; i++){
+			this.memberSchedule.add(i,new MemberSchedule(departFromHome.get(i), departFromSchool.get(i)));
+		}
 		// Initialize notification list
 		notification = new ArrayList<>();
 	}
@@ -126,7 +129,7 @@ public class Driver implements User
 	/**
 	 * Display Scheduled Ride From Home
 	 */
-	public void displayRideFromHome()
+	public void displayRideFromHome(int date)
 	{
 		if (!riderListFromHome.isEmpty()) 
 		{
@@ -134,7 +137,7 @@ public class Driver implements User
 			for(int i = 0; i< this.riderListFromHome.size(); i++)
 			{
 				System.out.println(riderListFromHome.get(i).getName() + " at " + 
-						format.format(riderListFromHome.get(i).getMemberSchedule().getHomeTime()));
+						format.format(riderListFromHome.get(i).getMemberSchedule().get(date).getHomeTime()));
 			}
 		} 
 		else
@@ -147,7 +150,7 @@ public class Driver implements User
 	/**
 	 * Display Scheduled Ride From School
 	 */
-	public void displayRideFromSchool()
+	public void displayRideFromSchool(int date)
 	{
 		if (!riderListFromSchool.isEmpty()) 
 		{
@@ -155,7 +158,7 @@ public class Driver implements User
 			for(int i = 0; i< this.riderListFromSchool.size(); i++)
 			{
 				System.out.println(riderListFromSchool.get(i).getName() + " at " +
-						format.format(riderListFromSchool.get(i).getMemberSchedule().getSchoolTime()));
+						format.format(riderListFromSchool.get(i).getMemberSchedule().get(date).getSchoolTime()));
 			}
 		} 
 		else
@@ -165,10 +168,11 @@ public class Driver implements User
 		System.out.println();
 	}
 
+	
 	/**
 	 * Add rider to drive with, go FROM home
 	 */
-	public boolean addRideFromHome(User rider)
+	public boolean addRideFromHome(int date, User rider)
 	{
 		if(this.emptySeatFromHome > 0)
 		{
@@ -176,7 +180,7 @@ public class Driver implements User
 			this.riderListFromHome.add(rider);
 			if(this.emptySeatFromHome == 0)
 			{
-				this.memberSchedule.setNotAvailableHome();
+				this.memberSchedule.get(date).setNotAvailableHome();
 			}
 			return true;
 		}  
@@ -186,12 +190,13 @@ public class Driver implements User
 		}
 	} 
 
+
 	/**
 	 * Add rider to drive with, go FROM school
 	 * @param rider
 	 * @return
 	 */
-	public boolean addRideFromSchool(User rider)
+	public boolean addRideFromSchool(int date, User rider)
 	{
 		if(this.emptySeatFromSchool > 0)
 		{
@@ -199,7 +204,7 @@ public class Driver implements User
 			this.riderListFromSchool.add(rider);
 			if(this.emptySeatFromSchool == 0)
 			{
-				this.memberSchedule.setNotAvailableSchool();
+				this.memberSchedule.get(date).setNotAvailableSchool();
 			}
 			return true;
 		}  
@@ -242,12 +247,12 @@ public class Driver implements User
 		this.address = newAddress;
 	}
 
-	public void setMemberSchedule(MemberSchedule memberSchedule)
+	public void setMemberSchedule(ArrayList<MemberSchedule> memberSchedule)
 	{
 		this.memberSchedule = memberSchedule;
 	}
 
-	public MemberSchedule getMemberSchedule()
+	public ArrayList<MemberSchedule> getMemberSchedule()
 	{
 		return this.memberSchedule;
 	}
@@ -290,14 +295,14 @@ public class Driver implements User
 		this.rideStatus.getCurrentStatus().displayCurrentState();
 	}
 	// For RIDER to reserve seat
-	public void reserveOneSeatHome(User rider)
+	public void reserveOneSeatHome(int date, User rider)
 	{
-		this.addRideFromHome(rider);
+		this.addRideFromHome(date, rider);
 	}
 	
-	public void reserveOneSeatSchool(User rider)
+	public void reserveOneSeatSchool(int date, User rider)
 	{
-		this.addRideFromSchool(rider);
+		this.addRideFromSchool(date, rider);
 	}
 	
 	public void setParkingSpot(String parkingSpot) {

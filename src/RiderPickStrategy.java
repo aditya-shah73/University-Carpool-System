@@ -12,20 +12,20 @@ public class RiderPickStrategy extends ObserverRideScheme implements RideSchedul
 
 	SimpleDateFormat format = new SimpleDateFormat("hh:mm");
 	private Scanner sc = new Scanner(System.in);
-	
+
 	@Override
-	public void pickUserFromHome(User choosingUser) throws ParseException {
+	public void pickUserFromHome(int date, User choosingUser) throws ParseException {
 		for(Map.Entry<String, User> entry : SystemCaller.driverTable.entrySet())
 		{
 			User theUser = entry.getValue();
-			if(theUser.getMemberSchedule().isAvailableHome())
+			if(theUser.getMemberSchedule().get(date).isAvailableHome())
 			{
 				if(entry.getValue().getRegion() - choosingUser.getRegion() >= 0)
 				{
-					if(choosingUser.getMemberSchedule().getHomeTime().equals(entry.getValue().getMemberSchedule().getHomeTime()))
+					if(choosingUser.getMemberSchedule().get(date).getHomeTime().equals(entry.getValue().getMemberSchedule().get(date).getHomeTime()))
 					{
 						System.out.println("You may carpool with: " + entry.getValue().getName() + "  Username: " + entry.getValue().getUsername() +
-								" at " + format.format(choosingUser.getMemberSchedule().getHomeTime()));
+								" at " + format.format(choosingUser.getMemberSchedule().get(date).getHomeTime()));
 					}
 				}
 			}
@@ -34,34 +34,39 @@ public class RiderPickStrategy extends ObserverRideScheme implements RideSchedul
 		String usernameChoice = sc.nextLine();
 		Driver driver = (Driver) SystemCaller.driverTable.get(usernameChoice);
 		// Check available
-		if((driver != null) && (driver.getMemberSchedule().isAvailableHome()))
+		if((driver != null) && (driver.getMemberSchedule().get(date).isAvailableHome()))
 		{
-			choosingUser.addRideFromHome(driver); // Add driver to pickup THIS rider
-			driver.reserveOneSeatHome(choosingUser); // reserve one seat from Home
+			if (choosingUser.viewCash() <= 0 || choosingUser.viewCredit() <= 0) {
+				System.out.println("Not enough cash or credit...");
+			} else {				
 
-			System.out.println("Done, ride with: " + driver.getName());
-			notifyObserver("Calling observer pattern - Rider: " + choosingUser.getName() + " will ride with " + driver.getName());
+				choosingUser.addRideFromHome(date,driver); // Add driver to pickup THIS rider
+				driver.reserveOneSeatHome(date,choosingUser); // reserve one seat from Home
+
+				System.out.println("Done, ride with: " + driver.getName());
+				notifyObserver("Calling observer pattern - Rider: " + choosingUser.getName() + " will ride with " + driver.getName());
+			}
 		} 
 		else
 		{
 			System.out.println("This driver isn't available.");
 		}
-		
+
 	}
 
 	@Override
-	public void pickUserFromSchool(User choosingUser) throws ParseException {
+	public void pickUserFromSchool(int date, User choosingUser) throws ParseException {
 		for(Map.Entry<String, User> entry : SystemCaller.driverTable.entrySet())
 		{
 			User theUser = entry.getValue();
-			if(theUser.getMemberSchedule().isAvailableSchool())
+			if(theUser.getMemberSchedule().get(date).isAvailableSchool())
 			{
 				if(entry.getValue().getRegion() - choosingUser.getRegion()  >= 0)
 				{
-					if(choosingUser.getMemberSchedule().getSchoolTime().equals(entry.getValue().getMemberSchedule().getSchoolTime()))
+					if(choosingUser.getMemberSchedule().get(date).getSchoolTime().equals(entry.getValue().getMemberSchedule().get(date).getSchoolTime()))
 					{
 						System.out.println("You may carpool with: " + entry.getValue().getName() + "  Username: " + entry.getValue().getUsername() +
-								" at " + format.format(choosingUser.getMemberSchedule().getSchoolTime()));
+								" at " + format.format(choosingUser.getMemberSchedule().get(date).getSchoolTime()));
 					}
 				}
 			}
@@ -71,21 +76,23 @@ public class RiderPickStrategy extends ObserverRideScheme implements RideSchedul
 		Driver driver = (Driver) SystemCaller.driverTable.get(usernameChoice);
 
 		// Check driver available
-		if((driver != null) && (driver.getMemberSchedule().isAvailableSchool()))
+		if((driver != null) && (driver.getMemberSchedule().get(date).isAvailableSchool()))
 		{
 
-			choosingUser.addRideFromSchool(driver); // Add driver to pickup THIS rider.
-			driver.reserveOneSeatSchool(choosingUser); // reserve one seat in driver
+			if (choosingUser.viewCash() <= 0 || choosingUser.viewCredit() <= 0) {
+				System.out.println("Not enough cash or credit...");
+			} else {				
 
-			System.out.println("Done, ride with: " + driver.getName());
-			notifyObserver("Calling observer pattern - Rider: " + choosingUser.getName() + " will ride with " + driver.getName());
+				choosingUser.addRideFromSchool(date,driver); // Add driver to pickup THIS rider.
+				driver.reserveOneSeatSchool(date,choosingUser); // reserve one seat in driver
+
+				System.out.println("Done, ride with: " + driver.getName());
+				notifyObserver("Calling observer pattern - Rider: " + choosingUser.getName() + " will ride with " + driver.getName());
+			}
 		} 
 		else
 		{
 			System.out.println("This driver isn't available.");
 		}
-
-		
 	}
-
 }

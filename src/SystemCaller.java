@@ -92,7 +92,49 @@ public class SystemCaller
 		System.out.print("Please enter your choice:");
 	}
 	
+	private void promptDateForDisplay(User u){
+		int choice;
+		System.out.println("********************************\n" +
+				"*       Please choose a day to display Schedule       *\n" +
+				"* 1. Monday               *\n" +
+				"* 2. Tuesday             *\n" +
+				"* 3. Wednesday             *\n" +
+				"* 4. Thursday             *\n" +
+				"* 5. Friday             *\n" +
+				"* 6. Saturday             *\n" +
+				"* 7. Sunday                      *\n" +
+				"* 8. Exit             *\n" +
+				"********************************");
+
+		System.out.print("Please enter your choice:");
+		choice = sc.nextInt( );
+		if(choice != 8){
+			u.displayRideFromHome(choice);
+			u.displayRideFromSchool(choice);
+		}
+		
+	}
 	
+	private void promptDateForPicking( User u, SchemeContext scheme, int choice) throws ParseException{
+		int date;
+		System.out.println("********************************\n" +
+				"*       Please choose a day to display Schedule       *\n" +
+				"* 1. Monday               *\n" +
+				"* 2. Tuesday             *\n" +
+				"* 3. Wednesday             *\n" +
+				"* 4. Thursday             *\n" +
+				"* 5. Friday             *\n" +
+				"* 6. Saturday             *\n" +
+				"* 7. Sunday                      *\n" +
+				"* 8. Exit             *\n" +
+				"********************************");
+
+		System.out.print("Please enter your choice:");
+		date = sc.nextInt( );
+		if(date != 8){
+			scheme.executeScheme(date - 1, u, choice);	
+		}
+	}
 	/**
 	 * Display Driver Carpool Menu
 	 * @param user
@@ -100,6 +142,7 @@ public class SystemCaller
 	 */
 	private void driverCarpoolMenu(User user) throws ParseException{
 		int choice;
+		int date;
 		user.displayNotification();
 		Scanner userInput = new Scanner(System.in);
 		do {
@@ -111,18 +154,17 @@ public class SystemCaller
 			{
 				case 1:
 				{
-					schemeContext.executeScheme(user, choice);				
+					promptDateForPicking(user, schemeContext, choice);			
 					break;
 				}
 				case 2:
 				{
-					schemeContext.executeScheme(user, choice);
+					promptDateForPicking(user, schemeContext, choice);			
 					break;
 				}
 				case 3:
 				{
-					driver.displayRideFromHome();
-					driver.displayRideFromSchool();
+					promptDateForDisplay(driver);
 					break;
 				}
 				case 4:
@@ -361,6 +403,11 @@ public class SystemCaller
 				{
 					if (rider.getDriverFromSchool() != null) {
 						rider.getDriverFromSchool().displayStatus();
+						
+						if (!(rider.getDriverFromSchool().getParkingSpot() == null)) {
+							System.out.println("Driver at parking spot: " + rider.getDriverFromSchool().getParkingSpot());
+						}
+
 					} else {
 						System.out.println("No driver from SJSU...");
 						System.out.println();
@@ -371,6 +418,10 @@ public class SystemCaller
 				{
 					if (rider.getDriverFromHome() != null) {
 						rider.getDriverFromHome().displayStatus();
+						if (!(rider.getDriverFromSchool().getParkingSpot() != null)) {
+							System.out.println("Driver at parking spot: " + rider.getDriverFromHome().getParkingSpot());
+						}
+
 					} else {
 						System.out.println("No driver from Home...");
 						System.out.println();
@@ -407,7 +458,7 @@ public class SystemCaller
 				{
 					if(rider.getDriverFromSchool() == null){
 						schemeContext = new SchemeContext();
-						schemeContext.executeScheme(rider, choice);
+						promptDateForPicking(rider, schemeContext, choice);	
 					}
 					else
 						System.out.println("You already had a driver to pick you up from School.");
@@ -417,7 +468,7 @@ public class SystemCaller
 				{
 					if(rider.getDriverFromHome() == null){
 						schemeContext = new SchemeContext();
-						schemeContext.executeScheme(rider, choice);
+						promptDateForPicking(rider, schemeContext, choice);	
 					}
 					else
 						System.out.println("You already had a driver to pick you up from Home.");
@@ -426,8 +477,7 @@ public class SystemCaller
 				}
 				case 3:
 				{
-					rider.displayRideFromHome();
-					rider.displayRideFromSchool();
+					this.promptDateForDisplay(rider);
 					break;
 				}
 				case 4:
@@ -440,6 +490,8 @@ public class SystemCaller
 					riderPaymentMenu(rider);
 					break;
 				}
+				case 6:
+					break;
 				default:
 				{
 					System.out.println("Invalid Input. Please try again.");
@@ -523,10 +575,12 @@ public class SystemCaller
 			for(Map.Entry<String, User> entry : driverTable.entrySet())
 			{
 				User theUser = entry.getValue();
+				for(int i=0;i<7;i++){
 				System.out.println("Username: " + theUser.getUsername() + " Name: " + theUser.getName() + 
 						" Address: " + theUser.getAddress() + " Region: " + theUser.getRegion() +
-						" Leaves Home at: " + format.format(theUser.getMemberSchedule().getHomeTime()) + 
-						" Leaves SJSU at: " + format.format(theUser.getMemberSchedule().getSchoolTime()));
+						" Leaves Home at: " + format.format(theUser.getMemberSchedule().get(i).getHomeTime()) + 
+						" Leaves SJSU at: " + format.format(theUser.getMemberSchedule().get(i).getSchoolTime()));
+				}
 			}
 			System.out.println("---------------------------------------------------------------------");
 		}
@@ -541,18 +595,20 @@ public class SystemCaller
 			for(Map.Entry<String, User> entry : riderTable.entrySet())
 			{
 				User theUser = entry.getValue();
+				for(int i=0;i<7;i++){
 				System.out.println("Username: " + theUser.getUsername() + " Name: " + theUser.getName() + 
 						" Address: " + theUser.getAddress() + " Region: " + theUser.getRegion()+
-						" Leaves Home at: " + format.format(theUser.getMemberSchedule().getHomeTime()) + 
-						" Leaves SJSU at: " + format.format(theUser.getMemberSchedule().getSchoolTime()));
+						" Leaves Home at: " + format.format(theUser.getMemberSchedule().get(i).getHomeTime()) + 
+						" Leaves SJSU at: " + format.format(theUser.getMemberSchedule().get(i).getSchoolTime()));
+				}
 			}
 			System.out.println("---------------------------------------------------------------------");
 		}
 	}
 
 	public User createNewUser() throws ParseException
-	{
-		Scanner sc = new Scanner(System.in);
+	{return null;}
+		/*Scanner sc = new Scanner(System.in);
 		User returnedUser;
 
 		System.out.println("Please enter the following information..");
@@ -582,7 +638,8 @@ public class SystemCaller
 			System.out.print("Please enter the number of seats available in your car: ");
 			seat = sc.nextInt();
 		}
-		switch(status)
+		switch(status){}
+		
 		{
 		case 1: // Rider
 		{
@@ -608,5 +665,5 @@ public class SystemCaller
 		}
 		}
 		return returnedUser;
-	}
+		*/
 }

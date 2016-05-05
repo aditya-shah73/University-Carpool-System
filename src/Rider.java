@@ -16,7 +16,7 @@ public class Rider implements User
 	private int credit;
 	private double cash;
 	private int currentLocation;
-	private MemberSchedule memberSchedule;
+	private ArrayList<MemberSchedule> memberSchedule;
 	private ArrayList<User> riderListSchool;
 	private ArrayList<User> riderListHome;
 	
@@ -26,15 +26,15 @@ public class Rider implements User
 	private int region;
 	private int emptySeatFromSchool;
 	private int emptySeatFromHome;
-	private String departFromHome;
-	private String departFromSchool;
+	private ArrayList<String> departFromHome;
+	private ArrayList<String> departFromSchool;
 	// This user's driver that will pickup FROM home/school
 	User driverFromHome;
 	User driverFromSchool;
 
 	SimpleDateFormat format = new SimpleDateFormat("hh:mm");
 	
-	public Rider(String username, String name, String address, int region, String departFromHome, String departFromSchool) throws ParseException
+	public Rider(String username, String name, String address, int region, ArrayList<String> departFromHome, ArrayList<String> departFromSchool) throws ParseException
 	{	
 		// Initialize account payment credit/cash value
 		this.credit = 20;
@@ -49,7 +49,12 @@ public class Rider implements User
 		// Initialize time schedule and MemberSchedule
 		this.departFromHome = departFromHome;
 		this.departFromSchool = departFromSchool;
-		this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
+		//this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
+		this.memberSchedule = new ArrayList<>();
+		for(int i=0; i<7; i++){
+			
+			this.memberSchedule.add(i, new MemberSchedule(departFromHome.get(i), departFromSchool.get(i)));
+		}
 	}
 
 	/**
@@ -226,12 +231,12 @@ public class Rider implements User
 	/**
 	 * Display Driver that will pickup this rider From Home
 	 */
-	public void displayRideFromHome() 
+	public void displayRideFromHome(int date) 
 	{
 		if(this.driverFromHome!=null)
 		{
 			System.out.println("You will be picked up from home by: " + this.driverFromHome.getName() + "\tat " + 
-					format.format(this.driverFromHome.getMemberSchedule().getHomeTime())); 
+					format.format(this.driverFromHome.getMemberSchedule().get(date).getHomeTime())); 
 		} 
 		else
 		{
@@ -243,12 +248,12 @@ public class Rider implements User
 	/**
 	 * Display Driver that will pickup this rider From School
 	 */
-	public void displayRideFromSchool() 
+	public void displayRideFromSchool(int date) 
 	{
 		if (this.driverFromSchool != null)
 		{
 			System.out.println("You will be picked up from school by: " + this.driverFromSchool.getName() + "\tat " + 
-					format.format(this.driverFromSchool.getMemberSchedule().getSchoolTime())); 
+					format.format(this.driverFromSchool.getMemberSchedule().get(date).getSchoolTime())); 
 		} 
 		else
 		{
@@ -259,7 +264,7 @@ public class Rider implements User
 	/**
 	 * Add Driver that will pickup this rider FROM Home
 	 */
-	public boolean addRideFromHome(User user) throws ParseException
+	public boolean addRideFromHome(int date,User user) throws ParseException
 	{
 		this.driverFromHome = user;
 		user.addNotification("You will pick up " + this.getName() + " from home");
@@ -270,7 +275,7 @@ public class Rider implements User
 	/**
 	 * Add Driver that will pickup this rider FROM Home
 	 */
-	public boolean addRideFromSchool(User user) throws ParseException
+	public boolean addRideFromSchool(int date, User user) throws ParseException
 	{
 		this.driverFromSchool = user;
 		user.addNotification("You will pick up " + this.getName() + " from school");
@@ -311,12 +316,12 @@ public class Rider implements User
 		this.address = newAddress;
 	}
 
-	public void setMemberSchedule(MemberSchedule memberSchedule)
+	public void setMemberSchedule(ArrayList<MemberSchedule> memberSchedule)
 	{
 		this.memberSchedule = memberSchedule;
 	}
 
-	public MemberSchedule getMemberSchedule()
+	public ArrayList<MemberSchedule> getMemberSchedule()
 	{
 		return this.memberSchedule;
 	}

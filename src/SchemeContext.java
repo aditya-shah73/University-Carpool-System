@@ -6,7 +6,7 @@ public class SchemeContext {
 	public SchemeContext() {
 	}
 	
-	public void getScheme(User user, int userOption) throws ParseException {
+	public void getScheme(int date, User user, int userOption) throws ParseException {
 		
 		if (user.getStatus().equals("Driver")) {
 			rideScheduleScheme = new DriverPickStrategy();
@@ -14,12 +14,12 @@ public class SchemeContext {
 			rideScheduleScheme = new RiderPickStrategy();
 		}
 	}
-	public void executeScheme(User user, int userOption) throws ParseException {
-		getScheme(user, userOption);
+	public void executeScheme(int date, User user, int userOption) throws ParseException {
+		getScheme(date, user, userOption);
 		if (userOption == 1) {
-			rideScheduleScheme.pickUserFromSchool(user);
+			rideScheduleScheme.pickUserFromSchool(date, user);
 		} else {
-			rideScheduleScheme.pickUserFromHome(user);
+			rideScheduleScheme.pickUserFromHome(date, user);
 		}
 	}
 

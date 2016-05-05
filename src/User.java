@@ -1,4 +1,5 @@
 import java.text.ParseException;
+import java.util.ArrayList;
 
 /**
  * The user interface for different users
@@ -15,11 +16,11 @@ public interface User
 	public void displayNotification();
 	public void addNotification(String notification);
 	
-	public void displayRideFromHome();
-	public void displayRideFromSchool();
+	public void displayRideFromHome(int date);
+	public void displayRideFromSchool(int date);
 	
-	public boolean addRideFromHome(User user) throws ParseException;
-	public boolean addRideFromSchool(User user) throws ParseException;
+	public boolean addRideFromHome(int date,User user) throws ParseException;
+	public boolean addRideFromSchool(int date,User user) throws ParseException;
 	/**
 	 * Get Username
 	 * @return String
@@ -33,8 +34,8 @@ public interface User
 	public String getStatus();
 	public String getAddress();
 	public String getName();
-	public MemberSchedule getMemberSchedule();
+	public ArrayList<MemberSchedule> getMemberSchedule();
 	public int getRegion(); // A B C D
 	public void setAddress(String newAddress);
-	public void setMemberSchedule(MemberSchedule memberSchedule);
+	public void setMemberSchedule(ArrayList<MemberSchedule> memberSchedule);
 }

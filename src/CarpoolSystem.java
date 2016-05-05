@@ -1,6 +1,7 @@
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.TimeZone;
@@ -17,7 +18,23 @@ public class CarpoolSystem
 		ObserverRideScheme observerRideScehme = new ObserverRideScheme();
 
 		// Initialize
-		Driver driver1 = new Driver("paul01" , "Paul #1", "Paul #1 address", 8, "8:00AM", "2:00PM", 3);
+		ArrayList<String> departHome = new ArrayList<>();
+		departHome.add("8:00AM");
+		departHome.add("9:00AM");
+		departHome.add("10:00AM");
+		departHome.add( "8:00AM");
+		departHome.add( "9:00AM");
+		departHome.add( "10:00AM");
+		departHome.add( "10:00AM");
+
+		Driver driver1 = new Driver("paul01", "Name Paul", "Paul Address", 8, departHome, departHome, 3);
+		mainSystem.driverTable.put("paul01", driver1);
+		observerRideScehme.addObserver(driver1);
+
+		Rider rider1 = new Rider("rav01", "Name Rav", "Rav Address", 3, departHome, departHome);
+		mainSystem.riderTable.put("rav01" , rider1);
+		observerRideScehme.addObserver(rider1);
+		/*Driver driver1 = new Driver("paul01" , "Paul #1", "Paul #1 address", 8, "8:00AM", "2:00PM", 3);
 		mainSystem.driverTable.put("paul01", driver1);
 		observerRideScehme.addObserver(driver1);
 
@@ -55,7 +72,7 @@ public class CarpoolSystem
 				
 		Rider rider5 = new Rider("rav05" , "Ravuth #5", "Ravuth #5 Address", 6, "8:00AM", "4:00PM");
 		mainSystem.riderTable.put("rav05" , rider5);
-		observerRideScehme.addObserver(rider5);
+		observerRideScehme.addObserver(rider5);*/
 		
 		mainSystem.parkingGarage.generateParkingSpot();
 		mainSystem.parkingGarage.generateGarage();
