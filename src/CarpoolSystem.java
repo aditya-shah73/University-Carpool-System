@@ -15,64 +15,10 @@ public class CarpoolSystem
 	public static void main(String[] args) throws ParseException
 	{
 		SystemCaller mainSystem = new SystemCaller();
-		ObserverRideScheme observerRideScehme = new ObserverRideScheme();
+		ObserverRideScheme observerRideScheme = new ObserverRideScheme();
 
-		// Initialize
-		ArrayList<String> departHome = new ArrayList<>();
-		departHome.add("8:00AM");
-		departHome.add("9:00AM");
-		departHome.add("10:00AM");
-		departHome.add( "8:00AM");
-		departHome.add( "9:00AM");
-		departHome.add( "10:00AM");
-		departHome.add( "10:00AM");
-
-		Driver driver1 = new Driver("paul01", "Name Paul", "Paul Address", 8, departHome, departHome, 3);
-		mainSystem.driverTable.put("paul01", driver1);
-		observerRideScehme.addObserver(driver1);
-
-		Rider rider1 = new Rider("rav01", "Name Rav", "Rav Address", 3, departHome, departHome);
-		mainSystem.riderTable.put("rav01" , rider1);
-		observerRideScehme.addObserver(rider1);
-		/*Driver driver1 = new Driver("paul01" , "Paul #1", "Paul #1 address", 8, "8:00AM", "2:00PM", 3);
-		mainSystem.driverTable.put("paul01", driver1);
-		observerRideScehme.addObserver(driver1);
-
-		Driver driver2 = new Driver("paul02" , "Paul #2", "Paul #2 address", 6, "9:00AM", "3:00PM", 3);
-		mainSystem.driverTable.put("paul02", driver2);
-		observerRideScehme.addObserver(driver2);
-
-		Driver driver3 = new Driver("paul03" , "Paul #3", "Paul #3 address", 4, "10:00AM", "4:00PM", 3);
-		mainSystem.driverTable.put("paul03", driver3);
-		observerRideScehme.addObserver(driver3);
-
-		Driver driver4 = new Driver("paul04" , "Paul #4", "Paul #4 address", 3, "11:00AM", "5:00PM", 3);
-		mainSystem.driverTable.put("paul04", driver4);
-		observerRideScehme.addObserver(driver4);
-
-		Driver driver5 = new Driver("paul05" , "Paul #5", "Paul #5 address", 7, "8:00AM", "4:00PM", 3);
-		mainSystem.driverTable.put("paul05", driver5);
-		observerRideScehme.addObserver(driver5);
-
-		Rider rider1 = new Rider("rav01" , "Ravuth #1", "Ravuth #1 Address", 2, "8:00AM", "2:00PM");
-		mainSystem.riderTable.put("rav01" , rider1);
-		observerRideScehme.addObserver(rider1);
-				
-		Rider rider2 = new Rider("rav02" , "Ravuth #2", "Ravuth #2 Address", 3, "9:00AM", "3:00PM");			
-		mainSystem.riderTable.put("rav02" , rider2);
-		observerRideScehme.addObserver(rider2);
-				
-		Rider rider3 = new Rider("rav03" , "Ravuth #3", "Ravuth #3 Address", 4, "10:00AM", "4:00PM");
-		mainSystem.riderTable.put("rav03" , rider3);
-		observerRideScehme.addObserver(rider3);
-
-		Rider rider4 = new Rider("rav04" , "Ravuth #4", "Ravuth #4 Address", 5, "11:00AM", "5:00PM");
-		mainSystem.riderTable.put("rav04" , rider4);
-		observerRideScehme.addObserver(rider4);
-				
-		Rider rider5 = new Rider("rav05" , "Ravuth #5", "Ravuth #5 Address", 6, "8:00AM", "4:00PM");
-		mainSystem.riderTable.put("rav05" , rider5);
-		observerRideScehme.addObserver(rider5);*/
+		// initialize users
+		initializeUser(mainSystem, observerRideScheme);
 		
 		mainSystem.parkingGarage.generateParkingSpot();
 		mainSystem.parkingGarage.generateGarage();
@@ -132,5 +78,143 @@ public class CarpoolSystem
 				}
 			}
 		}
+	}
+	private static void initializeUser(SystemCaller mainSystem, ObserverRideScheme observerRideScheme) throws ParseException{
+		// Initialize
+		ArrayList<String> departHome1 = new ArrayList<>();
+		departHome1.add("8:00AM");
+		departHome1.add("9:00AM");
+		departHome1.add("8:00AM");
+		departHome1.add("9:00AM");
+		departHome1.add("10:00AM");
+		departHome1.add("11:00AM");
+		departHome1.add("11:00AM");
+		
+		ArrayList<String> departHome2 = new ArrayList<>();
+		departHome2.add("9:00AM");
+		departHome2.add("11:00AM");
+		departHome2.add("9:00AM");
+		departHome2.add("11:00AM");
+		departHome2.add("8:00AM");
+		departHome2.add("10:00AM");
+		departHome2.add("10:00AM");
+		
+		ArrayList<String> departHome3 = new ArrayList<>();
+		departHome3.add("8:30AM");
+		departHome3.add("9:30AM");
+		departHome3.add("8:30AM");
+		departHome3.add("9:30AM");
+		departHome3.add("11:00AM");
+		departHome3.add("10:00AM");
+		departHome3.add("10:00AM");
+		
+		ArrayList<String> departSchool1= new ArrayList<>();
+		departSchool1.add("1:00PM");
+		departSchool1.add("3:00PM");
+		departSchool1.add("1:00PM");
+		departSchool1.add("3:00PM");
+		departSchool1.add("4:00PM");
+		departSchool1.add("5:00PM");
+		departSchool1.add("5:00PM");
+		
+		ArrayList<String> departSchool2 = new ArrayList<>();
+		departSchool2.add("2:00PM");
+		departSchool2.add("3:00PM");
+		departSchool2.add("2:00PM");
+		departSchool2.add("3:00PM");
+		departSchool2.add("5:00PM");
+		departSchool2.add("6:00PM");
+		departSchool2.add("6:00PM");
+		
+		ArrayList<String> departSchool3 = new ArrayList<>();
+		departSchool3.add("2:00PM");
+		departSchool3.add("4:00PM");
+		departSchool3.add("2:00PM");
+		departSchool3.add("4:00PM");
+		departSchool3.add("6:00PM");
+		departSchool3.add("5:00PM");
+		departSchool3.add("5:00PM");
+		
+		// Driver List
+		Driver driver1 = new Driver("paul01", "Paul Phan", "198 Garden Bing Cir, CA 95131", 10, departHome1, departSchool1, 6);
+		mainSystem.driverTable.put("paul01", driver1);
+		observerRideScheme.addObserver(driver1);
+		
+		Driver driver2 = new Driver("linh01", "Linh Phan", "789 Kirk Ave, CA 95122", 8, departHome2, departSchool2, 3);
+		mainSystem.driverTable.put("linh01", driver2);
+		observerRideScheme.addObserver(driver2);
+		
+		Driver driver3 = new Driver("brad01", "Brad Fujizawa ", "175 Carrie St, CA 95112", 9, departHome3, departSchool3, 3);
+		mainSystem.driverTable.put("brad01", driver3);
+		observerRideScheme.addObserver(driver3);
+		
+		Driver driver4 = new Driver("john01", "John Perez", "1025 E San Antonio St", 8, departHome1, departSchool3, 3);
+		mainSystem.driverTable.put("john01", driver4);
+		observerRideScheme.addObserver(driver4);
+		
+		Driver driver5 = new Driver("chris01", "Chris Vargas", "127 Bellevue Ave, CA 95122", 7, departHome2, departSchool2, 3);
+		mainSystem.driverTable.put("chris01", driver5);
+		observerRideScheme.addObserver(driver5);
+
+		// ****** Rider List  **********
+		Rider rider1 = new Rider("steven01", "Steven Rentie", "1472 Bahama Way, CA 95112", 4, departHome1, departSchool1);
+		mainSystem.riderTable.put("steven01" , rider1);
+		observerRideScheme.addObserver(rider1);
+		
+		Rider rider2 = new Rider("rav01", "Ravuth Long", "999 McLaughin Ave, CA 95133", 3, departHome2, departSchool1);
+		mainSystem.riderTable.put("rav01" , rider2);
+		observerRideScheme.addObserver(rider2);
+		
+		Rider rider3 = new Rider("jack01", "Jack Caravayo", "1775 S King Rd, CA 95112", 2, departHome3, departSchool1);
+		mainSystem.riderTable.put("jack01" , rider3);
+		observerRideScheme.addObserver(rider3);
+		
+		Rider rider4 = new Rider("elsa01", "Elsa Mojica", "555 McLaughin Ave, 95112", 1, departHome3, departSchool2);
+		mainSystem.riderTable.put("elsa01" , rider4);
+		observerRideScheme.addObserver(rider4);
+		
+		Rider rider5 = new Rider("olivia01", "Olivia Ramos", "1826 La Porte Way, CA 95112", 5, departHome1, departSchool3);
+		mainSystem.riderTable.put("olivia01" , rider5);
+		observerRideScheme.addObserver(rider5);
+		
+		Rider rider6 = new Rider("maila01", "Maila Kaelyn", "245 Stedgehone Way, CA 95115", 7, departHome2, departSchool2);
+		mainSystem.riderTable.put("maila01" , rider6);
+		observerRideScheme.addObserver(rider6);
+		
+		Rider rider7 = new Rider("ramiro01", "Ramiro Cruz", "1472 Leeward Ave, CA 95112", 6, departHome1, departSchool3);
+		mainSystem.riderTable.put("ramiro01" , rider7);
+		observerRideScheme.addObserver(rider7);
+		
+		Rider rider8 = new Rider("mike01", "Mie Caballero", "950 S 10th St, CA 95112", 4, departHome1, departSchool2);
+		mainSystem.riderTable.put("mike01" , rider8);
+		observerRideScheme.addObserver(rider8);
+		
+		Rider rider9 = new Rider("jessica01", "Jessica Covarru", "2131 Simon Ave, CA 95112", 2, departHome3, departSchool2);
+		mainSystem.riderTable.put("jessica01" , rider9);
+		observerRideScheme.addObserver(rider9);
+		
+		Rider rider10 = new Rider("lopez01", "Lopez Muricano", "1370 Cathay Dr, CA 95112", 1, departHome2, departSchool1);
+		mainSystem.riderTable.put("lopez01" , rider10);
+		observerRideScheme.addObserver(rider10);
+		
+		Rider rider11 = new Rider("martha01", "Martha Vera", "1538 Foley Ave, CA 95112", 5, departHome1, departSchool1);
+		mainSystem.riderTable.put("martha01" , rider11);
+		observerRideScheme.addObserver(rider11);
+		
+		Rider rider12 = new Rider("andrew01", "Andrew Andrea", "2390 Lucrecia Ave, CA 95112", 7, departHome3, departSchool3);
+		mainSystem.riderTable.put("andrew01" , rider12);
+		observerRideScheme.addObserver(rider12);
+		
+		Rider rider13 = new Rider("felina01", "Felina Fujilia", "2603 Brahms Way, CA 95162", 6, departHome2, departSchool2);
+		mainSystem.riderTable.put("felina01" , rider13);
+		observerRideScheme.addObserver(rider13);
+		
+		Rider rider14 = new Rider("shu01", "Shu Setino", "1666 Scotty Ave, CA 95112", 7, departHome1, departSchool3);
+		mainSystem.riderTable.put("shu01" , rider14);
+		observerRideScheme.addObserver(rider14);
+		
+		Rider rider15 = new Rider("sammy01", "Sammy Mitsubishi", "1867 S White Rd, CA 95122", 4, departHome2, departSchool1);
+		mainSystem.riderTable.put("sammy01" , rider15);
+		observerRideScheme.addObserver(rider15);
 	}
 }

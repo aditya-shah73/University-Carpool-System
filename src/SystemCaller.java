@@ -96,14 +96,14 @@ public class SystemCaller
 		int choice;
 		System.out.println("********************************\n" +
 				"*       Please choose a day to display Schedule       *\n" +
-				"* 1. Monday               *\n" +
-				"* 2. Tuesday             *\n" +
-				"* 3. Wednesday             *\n" +
-				"* 4. Thursday             *\n" +
-				"* 5. Friday             *\n" +
-				"* 6. Saturday             *\n" +
-				"* 7. Sunday                      *\n" +
-				"* 8. Exit             *\n" +
+				"* 1. Monday               	*\n" +
+				"* 2. Tuesday             	*\n" +
+				"* 3. Wednesday             	*\n" +
+				"* 4. Thursday             	*\n" +
+				"* 5. Friday             	*\n" +
+				"* 6. Saturday             	*\n" +
+				"* 7. Sunday                	*\n" +
+				"* 8. Exit             		*\n" +
 				"********************************");
 
 		System.out.print("Please enter your choice:");
@@ -118,17 +118,17 @@ public class SystemCaller
 	private void promptDateForPicking( User u, SchemeContext scheme, int choice) throws ParseException{
 		int date;
 		System.out.println("********************************\n" +
-				"*       Please choose a day to display Schedule       *\n" +
-				"* 1. Monday               *\n" +
-				"* 2. Tuesday             *\n" +
-				"* 3. Wednesday             *\n" +
-				"* 4. Thursday             *\n" +
-				"* 5. Friday             *\n" +
-				"* 6. Saturday             *\n" +
-				"* 7. Sunday                      *\n" +
-				"* 8. Exit             *\n" +
+				"*       Date Menu       	*\n" +
+				"* 1. Monday              	*\n" +
+				"* 2. Tuesday             	*\n" +
+				"* 3. Wednesday             	*\n" +
+				"* 4. Thursday             	*\n" +
+				"* 5. Friday             	*\n" +
+				"* 6. Saturday             	*\n" +
+				"* 7. Sunday                	*\n" +
+				"* 8. Exit             		*\n" +
 				"********************************");
-
+		System.out.println("Please choose a date to display schedule.");
 		System.out.print("Please enter your choice:");
 		date = sc.nextInt( );
 		if(date != 8){
@@ -564,7 +564,7 @@ public class SystemCaller
 
 	public void viewAllUser() 
 	{
-		System.out.println("LIST OF DRIVERS");
+		System.out.println(" *** LIST OF DRIVERS *** ");
 		if (driverTable.isEmpty()) 
 		{
 			System.out.println("Empty...");
@@ -575,16 +575,22 @@ public class SystemCaller
 			for(Map.Entry<String, User> entry : driverTable.entrySet())
 			{
 				User theUser = entry.getValue();
+				System.out.println("Username: " + theUser.getUsername() + "| Name: " + theUser.getName() + 
+						"| Address: " + theUser.getAddress() + "| Region: " + theUser.getRegion());
+				System.out.println("\t\t\tMon\tTues\tWed\tThurs\tFri\tSat\tSun");
+				System.out.print("  Leave Home at: ");
 				for(int i=0;i<7;i++){
-				System.out.println("Username: " + theUser.getUsername() + " Name: " + theUser.getName() + 
-						" Address: " + theUser.getAddress() + " Region: " + theUser.getRegion() +
-						" Leaves Home at: " + format.format(theUser.getMemberSchedule().get(i).getHomeTime()) + 
-						" Leaves SJSU at: " + format.format(theUser.getMemberSchedule().get(i).getSchoolTime()));
+				System.out.print("\t" + format.format(theUser.getMemberSchedule().get(i).getHomeTime()));
 				}
+				System.out.print("\n  Leave School at: ");
+				for(int i=0;i<7;i++){
+					System.out.print("\t" + format.format(theUser.getMemberSchedule().get(i).getSchoolTime()));
+				}
+				System.out.println("");
 			}
 			System.out.println("---------------------------------------------------------------------");
 		}
-		System.out.println("LIST OF RIDERS");
+		System.out.println(" *** LIST OF RIDERS ***");
 		if (riderTable.isEmpty()) 
 		{
 			System.out.println("Empty...");
@@ -595,12 +601,19 @@ public class SystemCaller
 			for(Map.Entry<String, User> entry : riderTable.entrySet())
 			{
 				User theUser = entry.getValue();
+				System.out.println("Username: " + theUser.getUsername() + "| Name: " + theUser.getName() + 
+						"| Address: " + theUser.getAddress() + "| Region: " + theUser.getRegion());
+				System.out.println("\t\t\tMon\tTues\tWed\tThurs\tFri\tSat\tSun");
+				System.out.print("  Leave Home at: ");
 				for(int i=0;i<7;i++){
-				System.out.println("Username: " + theUser.getUsername() + " Name: " + theUser.getName() + 
-						" Address: " + theUser.getAddress() + " Region: " + theUser.getRegion()+
-						" Leaves Home at: " + format.format(theUser.getMemberSchedule().get(i).getHomeTime()) + 
-						" Leaves SJSU at: " + format.format(theUser.getMemberSchedule().get(i).getSchoolTime()));
+				System.out.print("\t" + format.format(theUser.getMemberSchedule().get(i).getHomeTime()));
 				}
+				System.out.print("\n  Leave School at: ");
+				for(int i=0;i<7;i++){
+					System.out.print("\t" + format.format(theUser.getMemberSchedule().get(i).getSchoolTime()));
+				}
+				System.out.println("");
+				
 			}
 			System.out.println("---------------------------------------------------------------------");
 		}
