@@ -131,6 +131,7 @@ public class SystemCaller
 		System.out.println("Please choose a date to display schedule.");
 		System.out.print("Please enter your choice:");
 		date = sc.nextInt( );
+	
 		if(date != 8){
 			scheme.executeScheme(date , u, choice);	
 		}
@@ -349,9 +350,9 @@ public class SystemCaller
 				case 1:
 				{
 					System.out.println("Please pickup riders with the following orders: ");
-					ArrayList<User> riderList = theDriver.getRouteFromSchool();
+					HashMap<Integer, User> riderList = theDriver.getRouteFromSchool();
 					for(int i = 0; i < riderList.size(); i++){
-						System.out.println(">>> " + riderList.get(i).getName() + " at " + riderList.get(i).getAddress());
+						System.out.println(">>> " + riderList.get(i).getName() + " at " + riderList.get(i).getAddress() + " for " + format.format(riderList.get(i).getMemberSchedule().get(i).getSchoolTime()));
 					}
 					choice = 3;
 					break;
@@ -359,9 +360,9 @@ public class SystemCaller
 				case 2:
 				{
 					System.out.println("Please pickup riders with the following orders: ");
-					ArrayList<User> riderList = theDriver.getRouteFromHome();
+					HashMap<Integer, User> riderList = theDriver.getRouteFromHome();
 					for(int i = 0; i < riderList.size(); i++){
-						System.out.println(">>> " + riderList.get(i).getName() + " at " + riderList.get(i).getAddress());
+						System.out.println(">>> " + riderList.get(i).getName() + " at " + riderList.get(i).getAddress() + " for " + format.format(riderList.get(i).getMemberSchedule().get(i).getHomeTime()));
 					}
 					choice = 3;
 					break;
@@ -456,28 +457,34 @@ public class SystemCaller
 			{
 				case 1:
 				{
-					if(rider.getDriverFromSchool() == null){
+					schemeContext = new SchemeContext();
+					promptDateForPicking(rider, schemeContext, choice);	
+					/*
+					if(rider == null){
 						schemeContext = new SchemeContext();
 						promptDateForPicking(rider, schemeContext, choice);	
 					}
 					else
-						System.out.println("You already had a driver to pick you up from School.");
+						System.out.println("You already had a driver to pick you up from School.");*/
 					break;
 				}
 				case 2:
 				{
+					schemeContext = new SchemeContext();
+					promptDateForPicking(rider, schemeContext, choice);	
+					/*
 					if(rider.getDriverFromHome() == null){
 						schemeContext = new SchemeContext();
 						promptDateForPicking(rider, schemeContext, choice);	
 					}
 					else
 						System.out.println("You already had a driver to pick you up from Home.");
-				
+					*/
 					break;
 				}
 				case 3:
 				{
-					this.promptDateForDisplay(rider);
+					promptDateForDisplay(rider);
 					break;
 				}
 				case 4:

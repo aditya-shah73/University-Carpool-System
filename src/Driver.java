@@ -1,6 +1,7 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -18,8 +19,8 @@ public class Driver implements User
 	
 	private int currentLocation;
 	private ArrayList<MemberSchedule> memberSchedule;
-	private ArrayList<User> riderListFromSchool;
-	private ArrayList<User> riderListFromHome;
+	private HashMap<Integer, User> riderListFromSchool;
+	private HashMap<Integer, User> riderListFromHome;
 	
 	private String username;
 	private String address;
@@ -53,8 +54,8 @@ public class Driver implements User
 		this.currentLocation = 0;
 		this.emptySeatFromHome = seat;
 		this.emptySeatFromSchool = seat;
-		this.riderListFromHome = new ArrayList<User>();
-		this.riderListFromSchool = new ArrayList<User>();
+		this.riderListFromHome = new HashMap<Integer, User>();
+		this.riderListFromSchool = new HashMap<Integer, User>();
 		this.fullName = name;
 		this.address = address;
 		this.region = region;
@@ -131,6 +132,16 @@ public class Driver implements User
 	 */
 	public void displayRideFromHome(int date)
 	{
+		
+		if (riderListFromHome.containsKey(date)) {
+			System.out.println("List Of Rider to ride from home to school: ");
+			System.out.println(riderListFromHome.get(date).getUsername() + " at " + format.format(riderListFromHome.get(date).getMemberSchedule().get(date).getHomeTime()));
+		} else {
+			System.out.println("No rider to go from home to school.");
+		}
+		System.out.println();
+		
+		/*
 		if (!riderListFromHome.isEmpty()) 
 		{
 			System.out.println("List Of Rider to ride from home to school: ");
@@ -144,7 +155,7 @@ public class Driver implements User
 		{
 			System.out.println("No rider to go from home to school.");
 		}
-		System.out.println();
+		System.out.println();*/
 	}
 	
 	/**
@@ -152,6 +163,15 @@ public class Driver implements User
 	 */
 	public void displayRideFromSchool(int date)
 	{
+		
+		if (riderListFromSchool.containsKey(date)) {
+			System.out.println("List Of Rider to ride from SJSU to home: ");
+			System.out.println(riderListFromSchool.get(date).getUsername() + " at " + format.format(riderListFromSchool.get(date).getMemberSchedule().get(date).getSchoolTime()));
+		} else {
+			System.out.println("No rider to go from School to home.");
+		}
+		System.out.println();
+		/*
 		if (!riderListFromSchool.isEmpty()) 
 		{
 			System.out.println("List Of Rider to ride from SJSU to home: ");
@@ -164,8 +184,7 @@ public class Driver implements User
 		else
 		{
 			System.out.println("No rider to go from School to home.");
-		}
-		System.out.println();
+		}*/
 	}
 
 	
@@ -177,7 +196,7 @@ public class Driver implements User
 		if(this.emptySeatFromHome > 0)
 		{
 			this.emptySeatFromHome--;
-			this.riderListFromHome.add(rider);
+			this.riderListFromHome.put(date, rider);
 			if(this.emptySeatFromHome == 0)
 			{
 				this.memberSchedule.get(date).setNotAvailableHome();
@@ -201,7 +220,7 @@ public class Driver implements User
 		if(this.emptySeatFromSchool > 0)
 		{
 			this.emptySeatFromSchool--;
-			this.riderListFromSchool.add(rider);
+			this.riderListFromSchool.put(date, rider);
 			if(this.emptySeatFromSchool == 0)
 			{
 				this.memberSchedule.get(date).setNotAvailableSchool();
@@ -258,16 +277,16 @@ public class Driver implements User
 	}
 
 	// Return array list of rider Driver have to pick up, by order 
-	public ArrayList<User> getRouteFromHome()
+	public HashMap<Integer, User> getRouteFromHome()
 	{
-		Route routeFromHome = new Route(this.riderListFromHome);
-		return routeFromHome.getRouteFromHome();
+		//Route routeFromHome = new Route(this.riderListFromHome);
+		return this.riderListFromHome;
 	}
 
-	public ArrayList<User> getRouteFromSchool()
+	public HashMap<Integer, User> getRouteFromSchool()
 	{
-		Route routeFromSchool = new Route(this.riderListFromSchool);
-		return routeFromSchool.getRouteFromSchool();
+		//Route routeFromSchool = new Route(this.riderListFromSchool);
+		return this.riderListFromSchool;
 	}
 
 	/**
@@ -318,5 +337,17 @@ public class Driver implements User
 	public void observersNotify(String message) {
 		System.out.println(message);
 		
+	}
+
+	@Override
+	public HashMap<Integer, String> getListRideHome() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public HashMap<Integer, String> getListRideSchool() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

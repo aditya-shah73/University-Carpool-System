@@ -1,5 +1,6 @@
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The user interface for different users
@@ -38,4 +39,6 @@ public interface User
 	public int getRegion(); // A B C D
 	public void setAddress(String newAddress);
 	public void setMemberSchedule(ArrayList<MemberSchedule> memberSchedule);
+	public HashMap<Integer, String> getListRideHome();
+	public HashMap<Integer, String> getListRideSchool();
 }

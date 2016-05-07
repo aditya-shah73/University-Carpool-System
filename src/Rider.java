@@ -1,6 +1,7 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -28,6 +29,10 @@ public class Rider implements User
 	private int emptySeatFromHome;
 	private ArrayList<String> departFromHome;
 	private ArrayList<String> departFromSchool;
+	
+	private HashMap<Integer, String> driverListFromSchool;
+	private HashMap<Integer, String> driverListFromHome;
+
 	// This user's driver that will pickup FROM home/school
 	User driverFromHome;
 	User driverFromSchool;
@@ -51,6 +56,8 @@ public class Rider implements User
 		this.departFromSchool = departFromSchool;
 		//this.memberSchedule = new MemberSchedule(departFromHome, departFromSchool);
 		this.memberSchedule = new ArrayList<>();
+		this.driverListFromHome = new HashMap<>();
+		this.driverListFromSchool = new HashMap<>();
 		for(int i=0; i<7; i++){
 			
 			this.memberSchedule.add(i, new MemberSchedule(departFromHome.get(i), departFromSchool.get(i)));
@@ -233,32 +240,31 @@ public class Rider implements User
 	 */
 	public void displayRideFromHome(int date) 
 	{
-		if(this.driverFromHome!=null)
-		{
-			System.out.println("You will be picked up from home by: " + this.driverFromHome.getName() + "\tat " + 
-					format.format(this.driverFromHome.getMemberSchedule().get(date).getHomeTime())); 
-		} 
-		else
-		{
-			System.out.println("No ride from home available");
+		if (driverListFromHome.containsKey(date)) {
+			System.out.println(driverListFromHome.get(date));
+		} else {
+			System.out.println("No ride from Home available");
+
 		}
 		System.out.println();
 	}
 	
-	/**
+	/** 
 	 * Display Driver that will pickup this rider From School
 	 */
 	public void displayRideFromSchool(int date) 
 	{
-		if (this.driverFromSchool != null)
-		{
-			System.out.println("You will be picked up from school by: " + this.driverFromSchool.getName() + "\tat " + 
-					format.format(this.driverFromSchool.getMemberSchedule().get(date).getSchoolTime())); 
-		} 
-		else
-		{
+		if (driverListFromSchool.containsKey(date)) {
+			System.out.println(driverListFromSchool.get(date));
+		} else {
 			System.out.println("No ride from school available");
-		}	
+		}
+		System.out.println();
+
+			/*
+			System.out.println("You will be picked up from school by: " + this.driverFromSchool.getName() + "\tat " + 
+					format.format(this.driverFromSchool.getMemberSchedule().get(date).getSchoolTime())); */
+			
 	}
 
 	/**
@@ -266,20 +272,22 @@ public class Rider implements User
 	 */
 	public boolean addRideFromHome(int date,User user) throws ParseException
 	{
+		this.driverListFromHome.put(date, user.getUsername() + " will pick you up from school at " + format.format(user.getMemberSchedule().get(date).getHomeTime()));
 		this.driverFromHome = user;
-		user.addNotification("You will pick up " + this.getName() + " from home");
-		this.addNotification("Your driver " + user.getName() + " will pick you up from Home");
+		user.addNotification("You will pick up " + this.getName() + " from home at " + format.format(user.getMemberSchedule().get(date).getHomeTime()));
+		this.addNotification("Your driver " + user.getName() + " will pick you up from Home at " + format.format(user.getMemberSchedule().get(date).getHomeTime()));
 		return true;
 	}
 
 	/**
-	 * Add Driver that will pickup this rider FROM Home
+	 * Add Driver that will pickup this rider FROM school
 	 */
 	public boolean addRideFromSchool(int date, User user) throws ParseException
 	{
+		this.driverListFromSchool.put(date, user.getUsername() + " will pick you up from school at " + format.format(user.getMemberSchedule().get(date).getSchoolTime()));
 		this.driverFromSchool = user;
-		user.addNotification("You will pick up " + this.getName() + " from school");
-		this.addNotification("Your driver " + user.getName() + " will pick you up from School");
+		user.addNotification("You will pick up " + this.getName() + " from school at " + format.format(user.getMemberSchedule().get(date).getSchoolTime()));
+		this.addNotification("Your driver " + user.getName() + " will pick you up from School at " + format.format(user.getMemberSchedule().get(date).getSchoolTime()));
 		return true;
 	}
 
@@ -338,6 +346,19 @@ public class Rider implements User
 	@Override
 	public void observersNotify(String message) {
 		System.out.println(message);
+	}
+	
+
+	@Override
+	public HashMap<Integer, String> getListRideHome() {
+		return this.driverListFromHome;
+
+	}
+
+	@Override
+	public HashMap<Integer, String> getListRideSchool() {
+		return this.driverListFromSchool;
+
 	}
 
 }
